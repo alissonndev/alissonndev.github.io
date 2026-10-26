@@ -1,60 +1,483 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfólio de Alisson</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b12">
+  <meta name="description" content="Portfólio de Alisson Silva — desenvolvimento web, projetos Full Stack e tecnologia.">
+  <title>Alisson Silva | Desenvolvedor Full Stack</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-    body { background: linear-gradient(to right, #0f2027, #203a43, #2c5364); color: white; line-height: 1.6; }
-    header { text-align: center; padding: 40px 20px 20px; }
-    header h1 { font-size: 2.5rem; }
-    header p { font-size: 1.1rem; color: #ccc; }
-    section { padding: 40px 20px; max-width: 900px; margin: 0 auto; }
-    h2 { font-size: 1.8rem; margin-bottom: 15px; color: #00bfff; }
-    .buttons a { display: inline-block; margin: 10px 10px 0; padding: 12px 24px; font-size: 1rem; color: white; background-color: #007bff; border-radius: 8px; text-decoration: none; transition: transform 0.2s ease, background 0.3s ease; }
-    .buttons a:hover { background-color: #0056b3; transform: scale(1.05); }
-    ul { list-style: none; padding-left: 0; }
-    ul li::before { content: '\f058'; font-family: 'Font Awesome 6 Free'; font-weight: 900; margin-right: 10px; color: #00bfff; }
-    a[href^="mailto"], a[href^="https"] { color: #00bfff; text-decoration: none; }
-    a[href^="mailto"]:hover, a[href^="https"]:hover { text-decoration: underline; }
-    footer { text-align: center; padding: 20px; font-size: 0.9rem; color: #ccc; }
+    :root {
+      --bg: #080b12;
+      --surface: #101621;
+      --border: #202b3c;
+      --text: #f4f7fc;
+      --muted: #9ba9bd;
+      --blue: #39a5ff;
+      --cyan: #65e0ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1080px, 90%);
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(8, 11, 18, .92);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+    }
+
+    nav {
+      min-height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .logo span { color: var(--blue); }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: .9rem;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+
+    .hero {
+      min-height: 570px;
+      display: flex;
+      align-items: center;
+      padding: 90px 0;
+      background:
+        radial-gradient(ellipse at 80% 30%, #12345a55, transparent 50%);
+    }
+
+    .tag {
+      display: inline-block;
+      border: 1px solid #24527c;
+      color: var(--cyan);
+      background: #10243a;
+      padding: 7px 13px;
+      border-radius: 30px;
+      font-size: .82rem;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      max-width: 850px;
+      font-size: clamp(2.5rem, 7vw, 4.8rem);
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin-bottom: 22px;
+    }
+
+    h1 span {
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 12px 19px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-weight: 600;
+      transition: transform .2s, background .2s;
+    }
+
+    .btn:hover { transform: translateY(-3px); }
+
+    .btn-primary {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #07111e;
+    }
+
+    .btn-secondary { background: var(--surface); }
+
+    section { padding: 75px 0; }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+
+    .section-title span { color: var(--blue); }
+
+    .section-description {
+      color: var(--muted);
+      margin-bottom: 30px;
+      max-width: 650px;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 35px;
+      align-items: start;
+    }
+
+    .panel, .project, .skill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .panel { padding: 26px; }
+
+    .panel p { color: var(--muted); }
+
+    .highlight {
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .skill {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+
+    .skill i {
+      color: var(--blue);
+      font-size: 1.3rem;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .project {
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .project:hover {
+      border-color: var(--blue);
+      transform: translateY(-4px);
+    }
+
+    .project-icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      background: #142d49;
+      color: var(--cyan);
+      border-radius: 11px;
+      margin-bottom: 18px;
+      font-size: 1.2rem;
+    }
+
+    .project h3 { margin-bottom: 8px; }
+
+    .project p {
+      color: var(--muted);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .project-link {
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    .project-link:hover { text-decoration: underline; }
+
+    .contact-panel {
+      padding: 35px;
+      text-align: center;
+      background: linear-gradient(135deg, #10233b, #101621);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .contact-panel p {
+      color: var(--muted);
+      margin: 12px auto 25px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 25px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 700px) {
+      nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 12px 18px;
+      }
+
+      .hero { min-height: auto; padding: 75px 0; }
+      h1 { letter-spacing: -1px; }
+      .about, .projects { grid-template-columns: 1fr; }
+      .skills { grid-template-columns: repeat(2, 1fr); }
+      section { padding: 55px 0; }
+      .contact-panel { padding: 25px 18px; }
+    }
+
+    @media (max-width: 390px) {
+      .skills { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
+
 <body>
   <header>
-    <h1>🚀 Portfólio de Alisson Silva</h1>
-    <p>Desenvolvedor Júnior | Foco em Projetos Práticos e Aprendizado Contínuo</p>
+    <nav class="container">
+      <a class="logo" href="#inicio">Alisson<span>.dev</span></a>
+
+      <ul class="nav-links">
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#habilidades">Habilidades</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
   </header>
-  <section>
-    <h2><i class="fas fa-user"></i> Sobre Mim</h2>
-    <p>Sou estudante de Análise e Desenvolvimento de Sistemas pela UNINASSAU, apaixonado por tecnologia e aprendizado. Tenho experiência prática com HTML, CSS, JavaScript e suporte técnico. Busco oportunidades como desenvolvedor júnior ou técnico em TI, sempre focando em crescimento profissional e entrega de soluções reais.</p>
-  </section>
-  <section>
-    <h2><i class="fas fa-laptop-code"></i> Projetos</h2>
-    <div class="buttons">
-      <a href="./cadastro/" target="_blank"><i class="fas fa-address-card"></i> Cadastro de Clientes</a>
-      <a href="./todo/" target="_blank"><i class="fas fa-tasks"></i> Lista de Tarefas</a>
-      <a href="https://github.com/alissonndev" target="_blank"><i class="fab fa-github"></i> Meu GitHub</a>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container">
+        <span class="tag"><i class="fas fa-code"></i> Tecnologia e desenvolvimento</span>
+
+        <h1>Olá, sou Alisson Silva.<br>
+          Desenvolvo <span>soluções digitais.</span>
+        </h1>
+
+        <p>
+          Desenvolvedor com foco em aplicações web, JavaScript e
+          desenvolvimento Full Stack. Gosto de transformar ideias em
+          projetos práticos e soluções úteis.
+        </p>
+
+        <div class="buttons">
+          <a class="btn btn-primary" href="#projetos">
+            <i class="fas fa-folder-open"></i> Ver projetos
+          </a>
+          <a class="btn btn-secondary"
+             href="https://github.com/alissonndev"
+             target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+          <a class="btn btn-secondary"
+             href="https://www.linkedin.com/in/alisson-silva-55b63b302/"
+             target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-linkedin"></i> LinkedIn
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <div class="container">
+        <h2 class="section-title">Sobre <span>mim</span></h2>
+        <div class="about">
+          <div class="panel">
+            <p>
+              Sou estudante de Análise e Desenvolvimento de Sistemas pela
+              UNINASSAU e tenho interesse em desenvolvimento de software,
+              tecnologia e resolução de problemas.
+              <br><br>
+              Tenho experiência prática com HTML, CSS e JavaScript, além
+              de conhecimentos em suporte técnico. Venho desenvolvendo
+              projetos para aprimorar minhas habilidades e construir
+              aplicações cada vez mais completas.
+            </p>
+          </div>
+
+          <div class="panel">
+            <p><span class="highlight">Área de interesse</span><br>Desenvolvimento Full Stack</p>
+            <br>
+            <p><span class="highlight">Tecnologias</span><br>JavaScript, React, Node.js e MongoDB</p>
+            <br>
+            <p><span class="highlight">Também tenho interesse em</span><br>Suporte técnico, redes e infraestrutura</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="habilidades">
+      <div class="container">
+        <h2 class="section-title">Minhas <span>habilidades</span></h2>
+        <p class="section-description">
+          Tecnologias e ferramentas que utilizo nos meus estudos e projetos.
+        </p>
+
+        <div class="skills">
+          <div class="skill"><i class="fab fa-html5"></i> HTML5</div>
+          <div class="skill"><i class="fab fa-css3-alt"></i> CSS3</div>
+          <div class="skill"><i class="fab fa-js"></i> JavaScript</div>
+          <div class="skill"><i class="fab fa-react"></i> React</div>
+          <div class="skill"><i class="fab fa-node-js"></i> Node.js</div>
+          <div class="skill"><i class="fas fa-database"></i> MongoDB</div>
+          <div class="skill"><i class="fab fa-git-alt"></i> Git e GitHub</div>
+          <div class="skill"><i class="fas fa-network-wired"></i> Redes e suporte</div>
+          <div class="skill"><i class="fas fa-desktop"></i> Windows e Linux</div>
+          <div class="skill"><i class="fas fa-file-excel"></i> Excel avançado</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projetos">
+      <div class="container">
+        <h2 class="section-title">Projetos em <span>destaque</span></h2>
+        <p class="section-description">
+          Projetos práticos para demonstrar minhas habilidades e evolução.
+        </p>
+
+        <div class="projects">
+          <article class="project">
+            <div class="project-icon"><i class="fas fa-address-card"></i></div>
+            <h3>Cadastro de Clientes</h3>
+            <p>Projeto web para praticar criação de interfaces e manipulação de dados com tecnologias front-end.</p>
+            <a class="project-link" href="./cadastro/" target="_blank" rel="noopener noreferrer">
+              Ver projeto <i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+          </article>
+
+          <article class="project">
+            <div class="project-icon"><i class="fas fa-list-check"></i></div>
+            <h3>Lista de Tarefas</h3>
+            <p>Aplicação de tarefas para organizar atividades e praticar lógica de programação com JavaScript.</p>
+            <a class="project-link" href="./todo/" target="_blank" rel="noopener noreferrer">
+              Ver projeto <i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+          </article>
+
+          <article class="project">
+            <div class="project-icon"><i class="fas fa-store"></i></div>
+            <h3>Falcão Imports</h3>
+            <p>Projeto de loja virtual com React, Node.js e MongoDB, incluindo catálogo e painel administrativo. Em desenvolvimento.</p>
+            <a class="project-link" href="https://github.com/alissonndev" target="_blank" rel="noopener noreferrer">
+              Ver código no GitHub <i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+          </article>
+
+          <article class="project">
+            <div class="project-icon"><i class="fab fa-github"></i></div>
+            <h3>Outros projetos</h3>
+            <p>Explore meus repositórios e acompanhe outros projetos, experimentos e códigos.</p>
+            <a class="project-link" href="https://github.com/alissonndev" target="_blank" rel="noopener noreferrer">
+              Explorar GitHub <i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato">
+      <div class="container">
+        <div class="contact-panel">
+          <h2 class="section-title">Vamos conversar?</h2>
+          <p>Estou aberto a oportunidades e projetos relacionados à tecnologia.</p>
+
+          <div class="buttons" style="justify-content:center">
+            <a class="btn btn-primary"
+               href="mailto:alissonsilvalopes597@gmail.com">
+              <i class="fas fa-envelope"></i> Enviar e-mail
+            </a>
+            <a class="btn btn-secondary"
+               href="https://www.linkedin.com/in/alisson-silva-55b63b302/"
+               target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-linkedin"></i> Meu LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> Alisson Silva · Desenvolvido com HTML e CSS
     </div>
-  </section>
-  <section>
-    <h2><i class="fas fa-tools"></i> Habilidades</h2>
-    <ul>
-      <li>HTML, CSS, JavaScript</li>
-      <li>Git e GitHub</li>
-      <li>Suporte Técnico e Redes</li>
-      <li>Linux e Windows</li>
-      <li>Excel Avançado</li>
-    </ul>
-  </section>
-  <section>
-    <h2><i class="fas fa-envelope"></i> Contato</h2>
-    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:alissonsilvalopes597@gmail.com">alissonsilvalopes597@gmail.com</a></p>
-    <p><i class="fab fa-linkedin"></i> LinkedIn: <a href="https://www.linkedin.com/in/alisson-silva-55b63b302/">alisson-silva-55b63b302</a></p>
-  </section>
-  <footer>© 2025 Alisson Silva. Todos os direitos reservados.</footer>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
