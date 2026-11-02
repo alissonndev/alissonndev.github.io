@@ -1,39 +1,577 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cadastro de Clientes</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b12">
+  <title>Cadastro de Clientes | Alisson.dev</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
-    .container { background: white; padding: 20px; border-radius: 10px; }
-    input, button { padding: 8px; margin: 5px; }
-    table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 10px; }
+    :root {
+      --bg: #080b12;
+      --surface: #101824;
+      --border: #263348;
+      --text: #f4f7fc;
+      --muted: #96a5ba;
+      --blue: #39a5ff;
+      --red: #ff626f;
+      --green: #42d6a4;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Inter, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top right, #12345a55, transparent 35%), var(--bg);
+      color: var(--text);
+      padding: 35px 18px;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 35px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+
+    .logo span { color: var(--blue); }
+
+    .back {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+    }
+
+    .back:hover { color: var(--blue); }
+
+    .heading { margin-bottom: 25px; }
+
+    .heading h1 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      margin-bottom: 8px;
+    }
+
+    .heading h1 span { color: var(--blue); }
+
+    .heading p { color: var(--muted); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card, .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .stat-card {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .stat-card h2 {
+      font-size: 1.8rem;
+      margin-top: 5px;
+    }
+
+    .stat-icon {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      background: #142e4b;
+      color: var(--blue);
+      border-radius: 12px;
+      font-size: 1.2rem;
+    }
+
+    .panel {
+      padding: 25px;
+      margin-bottom: 22px;
+    }
+
+    .panel-title {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      background: #080e18;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      font-size: .95rem;
+    }
+
+    input:focus { border-color: var(--blue); }
+
+    input::placeholder { color: #65748a; }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: .2s;
+    }
+
+    button:hover { transform: translateY(-2px); }
+
+    .btn {
+      padding: 12px 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #07111e;
+    }
+
+    .btn-secondary {
+      background: #273348;
+      color: white;
+    }
+
+    .search {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .search i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .search input { padding-left: 43px; }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 570px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 15px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: .88rem;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    td { color: #e3eaf5; }
+
+    .client-name { font-weight: 600; }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      background: #1c2b40;
+      color: var(--blue);
+      border-radius: 7px;
+    }
+
+    .delete-btn {
+      color: var(--red);
+      background: #39202a;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 35px;
+      color: var(--muted);
+    }
+
+    .empty i {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: .8rem;
+      padding: 20px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 22px 12px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .panel { padding: 18px; }
+      .stats { gap: 10px; }
+      .stat-card { padding: 14px; }
+      .stat-card h2 { font-size: 1.5rem; }
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h2>Cadastro de Clientes</h2>
-    <input type="text" id="nome" placeholder="Nome">
-    <input type="text" id="email" placeholder="Email">
-    <button onclick="adicionarCliente()">Cadastrar</button>
-    <table>
-      <thead><tr><th>Nome</th><th>Email</th></tr></thead>
-      <tbody id="tabelaClientes"></tbody>
-    </table>
+
+    <header>
+      <a href="../" class="logo">Alisson<span>.dev</span></a>
+      <a href="../" class="back">
+        <i class="fas fa-arrow-left"></i> Voltar ao portfólio
+      </a>
+    </header>
+
+    <div class="heading">
+      <h1>Gestão de <span>Clientes</span></h1>
+      <p>Cadastre, organize e gerencie seus clientes em um só lugar.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div>
+          <p>Total de clientes</p>
+          <h2 id="totalClientes">0</h2>
+        </div>
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+      </div>
+
+      <div class="stat-card">
+        <div>
+          <p>Clientes cadastrados</p>
+          <h2 id="clientesVisiveis">0</h2>
+        </div>
+        <div class="stat-icon"><i class="fas fa-address-book"></i></div>
+      </div>
+    </div>
+
+    <section class="panel">
+      <h2 class="panel-title" id="tituloFormulario">
+        <i class="fas fa-user-plus"></i> Novo cliente
+      </h2>
+
+      <form id="formCliente">
+        <div class="form-grid">
+          <div class="field">
+            <label for="nome">Nome completo *</label>
+            <input id="nome" type="text" placeholder="Digite o nome" required maxlength="100">
+          </div>
+
+          <div class="field">
+            <label for="email">E-mail *</label>
+            <input id="email" type="email" placeholder="exemplo@email.com" required maxlength="150">
+          </div>
+
+          <div class="field">
+            <label for="telefone">Telefone</label>
+            <input id="telefone" type="tel" placeholder="(00) 00000-0000" maxlength="20">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn btn-primary" id="btnSalvar">
+            <i class="fas fa-plus"></i> Cadastrar cliente
+          </button>
+
+          <button type="button" class="btn btn-secondary" id="btnCancelar" hidden>
+            Cancelar edição
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel-title">
+        <i class="fas fa-users"></i> Clientes cadastrados
+      </h2>
+
+      <div class="search">
+        <i class="fas fa-search"></i>
+        <input type="search" id="pesquisa" placeholder="Pesquisar por nome, e-mail ou telefone...">
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Telefone</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaClientes"></tbody>
+        </table>
+
+        <div class="empty" id="mensagemVazia">
+          <i class="fas fa-user-group"></i>
+          Nenhum cliente cadastrado ainda.
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Sistema desenvolvido por Alisson Silva · <span id="ano"></span>
+    </footer>
   </div>
+
   <script>
-    function adicionarCliente() {
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      if (!nome || !email) return alert('Preencha todos os campos');
-      const tabela = document.getElementById('tabelaClientes');
-      const linha = tabela.insertRow();
-      linha.insertCell(0).innerText = nome;
-      linha.insertCell(1).innerText = email;
-      document.getElementById('nome').value = '';
-      document.getElementById('email').value = '';
+    const CHAVE = "alisson_cadastro_clientes_v2";
+
+    const form = document.getElementById("formCliente");
+    const nomeInput = document.getElementById("nome");
+    const emailInput = document.getElementById("email");
+    const telefoneInput = document.getElementById("telefone");
+    const tabela = document.getElementById("tabelaClientes");
+    const pesquisa = document.getElementById("pesquisa");
+    const mensagemVazia = document.getElementById("mensagemVazia");
+    const btnSalvar = document.getElementById("btnSalvar");
+    const btnCancelar = document.getElementById("btnCancelar");
+
+    let clientes = carregarClientes();
+    let editandoId = null;
+
+    function carregarClientes() {
+      try {
+        const dados = JSON.parse(localStorage.getItem(CHAVE) || "[]");
+        return Array.isArray(dados) ? dados : [];
+      } catch {
+        return [];
+      }
     }
+
+    function salvarDados() {
+      localStorage.setItem(CHAVE, JSON.stringify(clientes));
+    }
+
+    function atualizarTela() {
+      const termo = pesquisa.value.toLowerCase().trim();
+
+      const filtrados = clientes.filter(cliente =>
+        cliente.nome.toLowerCase().includes(termo) ||
+        cliente.email.toLowerCase().includes(termo) ||
+        cliente.telefone.toLowerCase().includes(termo)
+      );
+
+      tabela.innerHTML = "";
+
+      filtrados.forEach(cliente => {
+        const linha = document.createElement("tr");
+
+        const nome = document.createElement("td");
+        nome.className = "client-name";
+        nome.textContent = cliente.nome;
+
+        const email = document.createElement("td");
+        email.textContent = cliente.email;
+
+        const telefone = document.createElement("td");
+        telefone.textContent = cliente.telefone || "Não informado";
+
+        const acoes = document.createElement("td");
+        const botoes = document.createElement("div");
+        botoes.className = "action-buttons";
+
+        const editar = document.createElement("button");
+        editar.className = "icon-btn";
+        editar.type = "button";
+        editar.title = "Editar cliente";
+        editar.innerHTML = '<i class="fas fa-pen"></i>';
+        editar.addEventListener("click", () => editarCliente(cliente.id));
+
+        const excluir = document.createElement("button");
+        excluir.className = "icon-btn delete-btn";
+        excluir.type = "button";
+        excluir.title = "Excluir cliente";
+        excluir.innerHTML = '<i class="fas fa-trash"></i>';
+        excluir.addEventListener("click", () => excluirCliente(cliente.id));
+
+        botoes.append(editar, excluir);
+        acoes.appendChild(botoes);
+
+        linha.append(nome, email, telefone, acoes);
+        tabela.appendChild(linha);
+      });
+
+      document.getElementById("totalClientes").textContent = clientes.length;
+      document.getElementById("clientesVisiveis").textContent = filtrados.length;
+
+      mensagemVazia.style.display = filtrados.length ? "none" : "block";
+
+      if (!filtrados.length) {
+        mensagemVazia.textContent = clientes.length
+          ? "Nenhum cliente encontrado na pesquisa."
+          : "Nenhum cliente cadastrado ainda.";
+      }
+    }
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const nome = nomeInput.value.trim();
+      const email = emailInput.value.trim().toLowerCase();
+      const telefone = telefoneInput.value.trim();
+
+      if (!nome || !email) {
+        alert("Preencha nome e e-mail.");
+        return;
+      }
+
+      const emailExistente = clientes.some(cliente =>
+        cliente.email.toLowerCase() === email &&
+        cliente.id !== editandoId
+      );
+
+      if (emailExistente) {
+        alert("Já existe um cliente cadastrado com esse e-mail.");
+        return;
+      }
+
+      if (editandoId !== null) {
+        const indice = clientes.findIndex(cliente => cliente.id === editandoId);
+
+        if (indice !== -1) {
+          clientes[indice] = {
+            ...clientes[indice],
+            nome,
+            email,
+            telefone
+          };
+        }
+      } else {
+        clientes.push({
+          id: crypto.randomUUID(),
+          nome,
+          email,
+          telefone
+        });
+      }
+
+      salvarDados();
+      cancelarEdicao();
+      atualizarTela();
+    });
+
+    function editarCliente(id) {
+      const cliente = clientes.find(item => item.id === id);
+      if (!cliente) return;
+
+      editandoId = id;
+      nomeInput.value = cliente.nome;
+      emailInput.value = cliente.email;
+      telefoneInput.value = cliente.telefone;
+
+      document.getElementById("tituloFormulario").innerHTML =
+        '<i class="fas fa-user-pen"></i> Editar cliente';
+
+      btnSalvar.innerHTML = '<i class="fas fa-save"></i> Salvar alterações';
+      btnCancelar.hidden = false;
+
+      form.scrollIntoView({ behavior: "smooth" });
+      nomeInput.focus();
+    }
+
+    function excluirCliente(id) {
+      const cliente = clientes.find(item => item.id === id);
+      if (!cliente) return;
+
+      if (!confirm(`Deseja excluir o cliente ${cliente.nome}?`)) return;
+
+      clientes = clientes.filter(item => item.id !== id);
+
+      if (editandoId === id) cancelarEdicao();
+
+      salvarDados();
+      atualizarTela();
+    }
+
+    function cancelarEdicao() {
+      editandoId = null;
+      form.reset();
+
+      document.getElementById("tituloFormulario").innerHTML =
+        '<i class="fas fa-user-plus"></i> Novo cliente';
+
+      btnSalvar.innerHTML = '<i class="fas fa-plus"></i> Cadastrar cliente';
+      btnCancelar.hidden = true;
+    }
+
+    btnCancelar.addEventListener("click", cancelarEdicao);
+    pesquisa.addEventListener("input", atualizarTela);
+
+    document.getElementById("ano").textContent = new Date().getFullYear();
+
+    atualizarTela();
   </script>
 </body>
 </html>
