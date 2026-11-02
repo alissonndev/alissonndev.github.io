@@ -1,945 +1,374 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#070b14">
-  <title>Cadastro de Clientes | Alisson.dev</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <style>
-    :root {
-      --bg: #070b14;
-      --surface: #0e1625;
-      --surface-2: #111d30;
-      --surface-3: #17253a;
-      --border: #1d2d45;
-      --text: #f4f7ff;
-      --muted: #899bb5;
-      --blue: #168cff;
-      --blue-light: #48b2ff;
-      --green: #35d6a0;
-      --red: #ff6577;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      color: var(--text);
-      background:
-        radial-gradient(ellipse at 75% 0%, #123d7130, transparent 35%),
-        var(--bg);
-    }
-
-    a { text-decoration: none; }
-
-    button, input { font: inherit; }
-
-    .layout {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* MENU LATERAL */
-
-    .sidebar {
-      width: 245px;
-      flex-shrink: 0;
-      background: #090f1b;
-      border-right: 1px solid var(--border);
-      padding: 28px 18px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .logo {
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: white;
-      padding: 0 12px 35px;
-    }
-
-    .logo span { color: var(--blue-light); }
-
-    .menu-label {
-      color: #60738e;
-      font-size: .68rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      padding: 0 12px;
-      margin-bottom: 13px;
-    }
-
-    .menu-link {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      padding: 13px 14px;
-      color: var(--muted);
-      font-size: .88rem;
-      font-weight: 500;
-      border-radius: 9px;
-      margin-bottom: 6px;
-      transition: .2s;
-    }
-
-    .menu-link i {
-      width: 19px;
-      text-align: center;
-    }
-
-    .menu-link:hover,
-    .menu-link.active {
-      color: white;
-      background: linear-gradient(90deg, #137ce52b, #137ce508);
-    }
-
-    .menu-link.active {
-      border-left: 3px solid var(--blue);
-    }
-
-    .sidebar-bottom {
-      margin-top: auto;
-      padding: 18px 12px 0;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: .75rem;
-      line-height: 1.7;
-    }
-
-    .sidebar-bottom strong {
-      color: white;
-      display: block;
-      font-size: .85rem;
-    }
-
-    /* CONTEÚDO */
-
-    .main {
-      flex: 1;
-      min-width: 0;
-      padding: 30px 38px;
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 35px;
-    }
-
-    .breadcrumb {
-      color: var(--muted);
-      font-size: .82rem;
-    }
-
-    .breadcrumb span { color: var(--blue-light); }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 13px;
-      background: #10251f;
-      border: 1px solid #20503f;
-      border-radius: 30px;
-      color: var(--green);
-      font-size: .75rem;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      background: var(--green);
-      border-radius: 50%;
-      box-shadow: 0 0 10px #35d6a0;
-    }
-
-    .profile {
-      width: 39px;
-      height: 39px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #0876e8, #45b5ff);
-      border-radius: 12px;
-      font-weight: 800;
-      color: white;
-    }
-
-    .heading {
-      margin-bottom: 28px;
-    }
-
-    .heading h1 {
-      font-size: clamp(1.8rem, 4vw, 2.35rem);
-      letter-spacing: -1.2px;
-      margin-bottom: 9px;
-    }
-
-    .heading h1 span { color: var(--blue-light); }
-
-    .heading p {
-      color: var(--muted);
-      font-size: .9rem;
-      line-height: 1.6;
-    }
-
-    /* INDICADORES */
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 23px;
-      background: linear-gradient(145deg, #111d30, #0c1422);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      transition: .25s;
-    }
-
-    .stat-card:hover {
-      border-color: #2366a8;
-      transform: translateY(-3px);
-    }
-
-    .stat-card p {
-      color: var(--muted);
-      font-size: .83rem;
-      margin-bottom: 10px;
-    }
-
-    .stat-card h2 {
-      font-size: 2rem;
-      letter-spacing: -1px;
-    }
-
-    .stat-icon {
-      width: 51px;
-      height: 51px;
-      display: grid;
-      place-items: center;
-      color: var(--blue-light);
-      background: #12335a;
-      border: 1px solid #1d4e7f;
-      border-radius: 14px;
-      font-size: 1.2rem;
-    }
-
-    /* PAINÉIS */
-
-    .panel {
-      background: linear-gradient(145deg, #101a2a, #0d1522);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 25px;
-      margin-bottom: 23px;
-      box-shadow: 0 12px 35px #00000012;
-    }
-
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 23px;
-    }
-
-    .panel-title {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .panel-title i {
-      color: var(--blue-light);
-      margin-right: 9px;
-    }
-
-    .panel-subtitle {
-      color: var(--muted);
-      font-size: .78rem;
-      margin-top: 6px;
-    }
-
-    /* FORMULÁRIO */
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .field label {
-      color: #b7c5d9;
-      font-size: .8rem;
-      font-weight: 600;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px 15px;
-      background: #080f1b;
-      color: var(--text);
-      border: 1px solid #263951;
-      border-radius: 9px;
-      outline: none;
-      font-size: .87rem;
-      transition: .2s;
-    }
-
-    input:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px #168cff18;
-    }
-
-    input::placeholder { color: #62748e; }
-
-    .actions {
-      display: flex;
-      gap: 11px;
-      margin-top: 22px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      border-radius: 9px;
-      transition: .2s;
-    }
-
-    button:hover { transform: translateY(-2px); }
-
-    .btn {
-      padding: 13px 19px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      font-size: .84rem;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #0877ec, #26a2ff);
-      color: white;
-      box-shadow: 0 5px 18px #168cff30;
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 7px 24px #168cff55;
-    }
-
-    .btn-secondary {
-      background: #26364d;
-      color: #dce8f7;
-    }
-
-    [hidden] { display: none !important; }
-
-    /* PESQUISA */
-
-    .search {
-      position: relative;
-      margin-bottom: 19px;
-    }
-
-    .search i {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #8295b0;
-    }
-
-    .search input {
-      padding-left: 45px;
-      background: #080f1b;
-    }
-
-    /* TABELA */
-
-    .table-wrapper {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 600px;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 16px 15px;
-      border-bottom: 1px solid var(--border);
-      font-size: .82rem;
-    }
-
-    th {
-      color: #8396b1;
-      font-size: .72rem;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      background: #0b1422;
-      font-weight: 700;
-    }
-
-    td { color: #dbe5f3; }
-
-    tbody tr {
-      transition: .2s;
-    }
-
-    tbody tr:hover { background: #17253a70; }
-
-    tbody tr:last-child td { border-bottom: none; }
-
-    .client-info {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      min-width: 150px;
-    }
-
-    .avatar {
-      width: 35px;
-      height: 35px;
-      flex-shrink: 0;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #124e88, #168cff);
-      border-radius: 10px;
-      color: white;
-      font-size: .75rem;
-      font-weight: 800;
-    }
-
-    .client-name { font-weight: 600; }
-
-    .email-text { color: #a9bad1; }
-
-    .phone-text { color: #a9bad1; }
-
-    .action-buttons {
-      display: flex;
-      gap: 8px;
-    }
-
-    .icon-btn {
-      width: 34px;
-      height: 34px;
-      background: #142c47;
-      color: var(--blue-light);
-      border: 1px solid #234c73;
-      border-radius: 8px;
-    }
-
-    .icon-btn:hover { background: #1c4771; }
-
-    .delete-btn {
-      color: var(--red);
-      background: #321c29;
-      border-color: #59303d;
-    }
-
-    .delete-btn:hover { background: #542432; }
-
-    .empty {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--muted);
-      font-size: .85rem;
-    }
-
-    .empty i {
-      font-size: 2rem;
-      color: #426184;
-      margin-bottom: 13px;
-      display: block;
-    }
-
-    footer {
-      text-align: center;
-      color: #667a96;
-      font-size: .76rem;
-      padding: 15px;
-    }
-
-    footer span { color: var(--blue-light); }
-
-    /* CELULAR */
-
-    @media (max-width: 900px) {
-      .sidebar { width: 205px; }
-      .main { padding: 25px 22px; }
-    }
-
-    @media (max-width: 650px) {
-      .layout { display: block; }
-
-      .sidebar {
-        width: 100%;
-        padding: 16px 18px;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        display: block;
-      }
-
-      .logo {
-        padding: 0;
-        font-size: 1.3rem;
-      }
-
-      .menu-label,
-      .sidebar nav,
-      .sidebar-bottom { display: none; }
-
-      .main { padding: 22px 15px; }
-
-      .topbar { margin-bottom: 27px; }
-
-      .status { font-size: .68rem; }
-
-      .heading { margin-bottom: 22px; }
-
-      .stats { gap: 10px; }
-
-      .stat-card {
-        padding: 16px 12px;
-      }
-
-      .stat-card p { font-size: .7rem; }
-
-      .stat-card h2 { font-size: 1.6rem; }
-
-      .stat-icon {
-        width: 39px;
-        height: 39px;
-        font-size: 1rem;
-      }
-
-      .panel { padding: 18px 14px; }
-
-      .form-grid { grid-template-columns: 1fr; }
-
-      .btn { flex: 1; }
-
-      .panel-header { align-items: flex-start; }
-    }
-
-    @media (max-width: 380px) {
-      .stats { grid-template-columns: 1fr; }
-      .topbar-right { gap: 7px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clientes | Alisson.dev</title>
+<meta name="theme-color" content="#3b5bf5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#f5f7fd; --card:#fff; --ink:#151a33; --muted:#6b738f; --line:#e8ebf5; --blue:#3b5bf5; --red:#ef4444;
+    --font:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; scroll-padding-top:16px; }
+  body { background:var(--bg); color:var(--ink); font:14px/1.5 var(--font); }
+  button,input,select { font:inherit; color:inherit; }
+  :focus-visible { outline:2px solid var(--blue); outline-offset:2px; border-radius:6px; }
+  [hidden] { display:none !important; }
+  .app { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
+  @media (max-width:900px){ .app{grid-template-columns:1fr;} .side{display:none;} }
+
+  .side { background:var(--card); border-right:1px solid var(--line); padding:24px 16px; position:sticky; top:0; height:100vh; display:flex; flex-direction:column; gap:4px; }
+  .brand { font-weight:800; font-size:20px; padding:0 10px 18px; text-decoration:none; }
+  .brand span { color:var(--blue); }
+  .side .novo { margin-bottom:14px; }
+  .side a.nav { display:flex; gap:12px; padding:11px 12px; border-radius:10px; color:var(--muted); text-decoration:none; font-weight:500; }
+  .side a.nav:hover { background:#eef1ff; color:var(--blue); }
+  .side a.nav.on { background:var(--blue); color:#fff; }
+  .side hr { border:0; border-top:1px solid var(--line); margin:12px 0; }
+  .side .fim { margin-top:auto; font-size:12px; color:var(--muted); padding:0 10px; }
+
+  main { padding:24px 30px 48px; display:grid; gap:18px; min-width:0; max-width:1300px; width:100%; margin:0 auto; }
+  @media (max-width:640px){ main{padding:16px 14px 40px;} }
+  .topo { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  h1 { font-size:24px; letter-spacing:-.02em; }
+  .sub { color:var(--muted); }
+  .topo-dir { display:flex; align-items:center; gap:12px; flex:1 1 280px; justify-content:flex-end; }
+  .busca { flex:1; max-width:340px; min-height:42px; border:1px solid var(--line); background:var(--card); border-radius:12px; padding:0 16px; }
+  .av { width:38px; height:38px; border-radius:50%; color:#fff; display:grid; place-items:center; font-size:13px; font-weight:700; flex-shrink:0; }
+  .mnav { display:none; gap:14px; font-size:13px; flex-wrap:wrap; }
+  @media (max-width:900px){ .mnav{display:flex;} }
+  .mnav a { color:var(--blue); font-weight:600; text-decoration:none; }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px; min-width:0; }
+  .cab { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+  .cab h2 { font-size:16px; }
+  .cab small { color:var(--muted); }
+
+  .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media (max-width:1000px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:480px){ .kpis{grid-template-columns:1fr;} }
+  .kpi { display:flex; gap:14px; align-items:center; }
+  .ic { width:48px; height:48px; border-radius:14px; display:grid; place-items:center; font-size:20px; flex-shrink:0; }
+  .kpi small { color:var(--muted); display:block; }
+  .kpi b { font-size:26px; line-height:1.15; display:block; }
+  .kpi em { font-style:normal; font-size:12px; color:#16a34a; font-weight:600; }
+
+  .g2 { display:grid; grid-template-columns:1.25fr 1fr; gap:14px; }
+  @media (max-width:1000px){ .g2{grid-template-columns:1fr;} }
+  svg.graf { width:100%; height:auto; display:block; }
+  .funil { display:grid; gap:8px; }
+  .etapa { display:grid; grid-template-columns:1fr 64px; gap:12px; align-items:center; }
+  .etapa .f { margin:0 auto; height:42px; border-radius:6px; display:grid; place-items:center; font-weight:600; font-size:13px; }
+  .etapa b { text-align:right; }
+  .total { display:flex; justify-content:space-between; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); align-items:center; }
+  .total b { font-size:22px; color:var(--ink); }
+
+  .linha { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); }
+  .linha:last-child { border-bottom:0; }
+  .linha .t { flex:1; min-width:0; } .linha .t b, .linha .t span { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .linha .t span, .quando { color:var(--muted); font-size:12px; }
+  .quando { white-space:nowrap; }
+  .ai { width:36px; height:36px; border-radius:10px; display:grid; place-items:center; background:#eef1ff; color:var(--blue); flex-shrink:0; font-weight:700; }
+  .vazio { text-align:center; color:var(--muted); padding:28px 12px; }
+  .vazio b { display:block; color:var(--ink); margin-bottom:2px; }
+
+  .st { border:0; border-radius:8px; padding:3px 10px; font-size:12px; font-weight:600; }
+  select.st { cursor:pointer; padding-right:4px; }
+  .s-Novo{background:#e5edff;color:#2b57d6;} .s-Contatado{background:#e0f5e8;color:#16803c;}
+  .s-Qualificado{background:#fff0d1;color:#a8680b;} .s-Cliente{background:#eee4ff;color:#7c3aed;}
+
+  .barra { display:flex; gap:10px; flex-wrap:wrap; }
+  .barra select { min-height:38px; border:1px solid var(--line); border-radius:10px; padding:0 12px; background:#fff; }
+  .tabela { overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin-top:6px; }
+  table { width:100%; border-collapse:collapse; min-width:680px; }
+  th,td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--line); vertical-align:middle; }
+  th { font-size:12px; color:var(--muted); font-weight:600; background:#f9faff; }
+  tbody tr:last-child td { border-bottom:0; } tbody tr:hover { background:#f9faff; }
+  .cli { display:flex; gap:12px; align-items:center; } .cli b { display:block; } .cli span { color:var(--muted); font-size:12px; }
+  .acao { display:flex; gap:6px; }
+  .bt { min-height:32px; padding:0 10px; border-radius:8px; border:1px solid var(--line); background:#fff; cursor:pointer; font-size:12px; font-weight:600; color:var(--muted); text-decoration:none; display:inline-grid; place-items:center; }
+  .bt:hover { color:var(--blue); border-color:var(--blue); } .bt.x:hover { color:var(--red); border-color:var(--red); }
+  .rod { margin-top:10px; color:var(--muted); font-size:13px; }
+
+  .btn { min-height:42px; padding:0 18px; border-radius:10px; border:0; font-weight:600; cursor:pointer; background:var(--blue); color:#fff; }
+  .btn:hover { filter:brightness(1.1); } .btn.s { background:var(--bg); color:var(--ink); } .btn.d { background:var(--red); }
+  dialog { border:0; border-radius:16px; padding:24px; width:min(440px,92vw); margin:auto; box-shadow:0 20px 60px rgba(20,30,80,.3); }
+  dialog::backdrop { background:rgba(15,20,50,.5); }
+  dialog h2 { margin-bottom:14px; } dialog p { color:var(--muted); margin-bottom:16px; }
+  .campo { margin-bottom:6px; } .campo label { display:block; font-weight:600; font-size:13px; margin-bottom:5px; }
+  .campo input, .campo select { width:100%; min-height:44px; border:1.5px solid var(--line); border-radius:10px; padding:0 14px; background:#fff; }
+  .campo input:focus, .campo select:focus { border-color:var(--blue); outline:none; box-shadow:0 0 0 3px #3b5bf51f; }
+  .campo input[aria-invalid="true"] { border-color:var(--red); }
+  .erro { color:var(--red); font-size:12px; min-height:18px; }
+  .botoes { display:flex; gap:10px; margin-top:8px; }
+  #avisos { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); display:grid; gap:8px; z-index:50; }
+  .aviso { background:var(--ink); color:#fff; padding:10px 18px; border-radius:10px; font-weight:500; }
+</style>
 </head>
-
 <body>
-  <div class="layout">
+<div class="app">
+  <aside class="side" aria-label="Menu">
+    <a class="brand" href="../">Alisson<span>.dev</span></a>
+    <button class="btn novo" type="button" id="abrirNovo">+ Novo cliente</button>
+    <a class="nav on" href="#painel">▦ Painel</a>
+    <a class="nav" href="#clientes">☰ Clientes</a>
+    <a class="nav" href="#atividade">◔ Atividade</a>
+    <hr>
+    <a class="nav" href="../">⌂ Portfólio</a>
+    <a class="nav" href="../todo/">✓ Painel de tarefas</a>
+    <p class="fim">Projeto de demonstração. Os dados ficam salvos só neste navegador.</p>
+  </aside>
 
-    <aside class="sidebar">
-      <a href="../" class="logo">Alisson<span>.dev</span></a>
+  <main id="painel">
+    <nav class="mnav" aria-label="Navegação"><a href="../">Portfólio</a><a href="../todo/">Tarefas</a><a href="#clientes">Lista de clientes</a></nav>
 
-      <p class="menu-label">MENU PRINCIPAL</p>
-
-      <nav>
-        <a href="../" class="menu-link">
-          <i class="fas fa-house"></i> Portfólio
-        </a>
-
-        <a href="./" class="menu-link active">
-          <i class="fas fa-users"></i> Clientes
-        </a>
-
-        <a href="../todo/" class="menu-link">
-          <i class="fas fa-list-check"></i> Lista de tarefas
-        </a>
-      </nav>
-
-      <div class="sidebar-bottom">
-        <strong>Alisson.dev</strong>
-        Painel de demonstração
+    <div class="topo">
+      <div><h1>Bem-vindo de volta, Alisson! 👋</h1><p class="sub">Veja como está o seu cadastro de clientes hoje.</p></div>
+      <div class="topo-dir">
+        <input class="busca" id="busca" type="search" placeholder="Buscar cliente..." aria-label="Buscar cliente">
+        <span class="av" style="background:var(--blue)">A</span>
       </div>
-    </aside>
+    </div>
 
-    <main class="main">
+    <div class="kpis">
+      <div class="card kpi"><span class="ic" style="background:#e5edff;color:#3b5bf5">◉</span><div><small>Total de clientes</small><b id="kTotal">0</b><em id="kTotalE"></em></div></div>
+      <div class="card kpi"><span class="ic" style="background:#fff0d1;color:#d98a0b">★</span><div><small>Novos (status Novo)</small><b id="kNovo">0</b><em id="kNovoE"></em></div></div>
+      <div class="card kpi"><span class="ic" style="background:#e0f5e8;color:#16a34a">✆</span><div><small>Com telefone</small><b id="kFone">0</b><em id="kFoneE"></em></div></div>
+      <div class="card kpi"><span class="ic" style="background:#eee4ff;color:#7c3aed">✓</span><div><small>Já são clientes</small><b id="kGanho">0</b><em id="kGanhoE"></em></div></div>
+    </div>
 
-      <header class="topbar">
-        <div class="breadcrumb">
-          Painel / <span>Clientes</span>
-        </div>
-
-        <div class="topbar-right">
-          <div class="status">
-            <span class="status-dot"></span>
-            Sistema ativo
-          </div>
-          <div class="profile">A</div>
-        </div>
-      </header>
-
-      <section class="heading">
-        <h1>Gestão de <span>Clientes</span></h1>
-        <p>Gerencie seus contatos, organize informações e acompanhe seus cadastros.</p>
+    <div class="g2">
+      <section class="card"><div class="cab"><h2>Crescimento da base</h2><small>Últimos 30 dias</small></div><div id="grafico"></div></section>
+      <section class="card"><div class="cab"><h2>Funil de clientes</h2><small>Por etapa</small></div>
+        <div class="funil" id="funil"></div>
+        <div class="total"><span>Total na base</span><b id="fTotal">0</b></div>
       </section>
+    </div>
 
-      <section class="stats">
-        <div class="stat-card">
-          <div>
-            <p>Total de clientes</p>
-            <h2 id="totalClientes">0</h2>
-          </div>
-          <div class="stat-icon">
-            <i class="fas fa-users"></i>
-          </div>
+    <div class="g2">
+      <section class="card"><div class="cab"><h2>Clientes recentes</h2><a href="#clientes" style="color:var(--blue);font-weight:600;text-decoration:none">Ver todos</a></div><div id="recentes"></div></section>
+      <section class="card" id="atividade"><div class="cab"><h2>Atividade recente</h2></div><div id="log"></div></section>
+    </div>
+
+    <section class="card" id="clientes">
+      <div class="cab"><h2>Todos os clientes</h2>
+        <div class="barra">
+          <select id="filtro" aria-label="Filtrar por status"><option value="">Todos os status</option></select>
+          <button class="btn s" type="button" id="exportar">Exportar CSV</button>
+          <button class="btn" type="button" id="abrirNovo2">+ Novo cliente</button>
         </div>
+      </div>
+      <div class="tabela"><table>
+        <thead><tr><th>Cliente</th><th>Telefone</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr></thead>
+        <tbody id="corpo"></tbody>
+      </table><div class="vazio" id="vazio" hidden><b id="vazioT"></b><span id="vazioS"></span></div></div>
+      <p class="rod" id="contagem"></p>
+    </section>
+  </main>
+</div>
 
-        <div class="stat-card">
-          <div>
-            <p>Resultados encontrados</p>
-            <h2 id="clientesVisiveis">0</h2>
-          </div>
-          <div class="stat-icon">
-            <i class="fas fa-address-book"></i>
-          </div>
-        </div>
-      </section>
+<dialog id="dlgForm">
+  <h2 id="tituloForm">Novo cliente</h2>
+  <form id="form" novalidate>
+    <div class="campo"><label for="nome">Nome completo *</label><input id="nome" maxlength="100" autocomplete="off" placeholder="Maria da Silva"><p class="erro" id="eNome"></p></div>
+    <div class="campo"><label for="email">E-mail *</label><input id="email" type="email" maxlength="150" autocomplete="off" placeholder="maria@email.com"><p class="erro" id="eEmail"></p></div>
+    <div class="campo"><label for="tel">Telefone</label><input id="tel" type="tel" maxlength="15" inputmode="numeric" autocomplete="off" placeholder="(88) 99999-9999"><p class="erro" id="eTel"></p></div>
+    <div class="campo"><label for="status">Status</label><select id="status"></select></div>
+    <div class="botoes"><button class="btn" type="submit" id="btnSalvar">Cadastrar</button><button class="btn s" type="button" id="cancelar">Cancelar</button></div>
+  </form>
+</dialog>
+<dialog id="dlgDel"><h2>Excluir cliente?</h2><p id="delTexto"></p>
+  <div class="botoes"><button class="btn d" id="delSim" type="button">Excluir</button><button class="btn s" id="delNao" type="button">Cancelar</button></div></dialog>
+<div id="avisos" role="status" aria-live="polite"></div>
 
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2 class="panel-title" id="tituloFormulario">
-              <i class="fas fa-user-plus"></i> Novo cliente
-            </h2>
-            <p class="panel-subtitle">Preencha as informações para cadastrar um novo contato.</p>
-          </div>
-        </div>
+<script>
+  const CHAVE = "alisson_cadastro_clientes_v2"; // mesma chave: clientes já salvos continuam aparecendo
+  const CHAVE_LOG = "alisson_clientes_atividade";
+  const STATUS = ["Novo", "Contatado", "Qualificado", "Cliente"];
+  const FUNIL = ["#3b5bf5", "#9db8ff", "#7fd3a0", "#f5c557"];
+  const CORES = ["#3b5bf5", "#8b5cf6", "#22b573", "#f59e0b", "#ec4899", "#0ea5e9"];
+  const DIA = 864e5;
+  const $ = (id) => document.getElementById(id);
+  const ler = (k) => { try { const d = JSON.parse(localStorage.getItem(k) || "[]"); return Array.isArray(d) ? d : []; } catch (e) { return []; } };
+  const gravar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { aviso("Não foi possível salvar neste navegador."); } };
 
-        <form id="formCliente">
-          <div class="form-grid">
-            <div class="field">
-              <label for="nome">Nome completo *</label>
-              <input id="nome" type="text" placeholder="Digite o nome completo" required maxlength="100">
-            </div>
+  let clientes = ler(CHAVE).map((c) => ({ ...c, status: STATUS.includes(c.status) ? c.status : "Novo" }));
+  let log = ler(CHAVE_LOG);
+  let editandoId = null, excluirId = null;
 
-            <div class="field">
-              <label for="email">E-mail *</label>
-              <input id="email" type="email" placeholder="exemplo@email.com" required maxlength="150">
-            </div>
+  const novoId = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+  const digitos = (s) => (s || "").replace(/\D/g, "");
+  const iniciais = (n) => n.trim().split(/\s+/).slice(0, 2).map((p) => p[0].toUpperCase()).join("");
+  const corDe = (n) => CORES[[...n].reduce((s, c) => s + c.charCodeAt(0), 0) % CORES.length];
+  const dataBR = (t) => (t ? new Date(t).toLocaleDateString("pt-BR") : "—");
+  function ha(t) {
+    const m = Math.floor((Date.now() - t) / 6e4);
+    if (m < 1) return "agora"; if (m < 60) return `há ${m} min`;
+    const h = Math.floor(m / 60); if (h < 24) return `há ${h} h`;
+    const d = Math.floor(h / 24); return d === 1 ? "ontem" : `há ${d} dias`;
+  }
 
-            <div class="field">
-              <label for="telefone">Telefone</label>
-              <input id="telefone" type="tel" placeholder="(00) 00000-0000" maxlength="20">
-            </div>
-          </div>
-
-          <div class="actions">
-            <button type="submit" class="btn btn-primary" id="btnSalvar">
-              <i class="fas fa-plus"></i> Cadastrar cliente
-            </button>
-
-            <button type="button" class="btn btn-secondary" id="btnCancelar" hidden>
-              <i class="fas fa-xmark"></i> Cancelar edição
-            </button>
-          </div>
-        </form>
-      </section>
-
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2 class="panel-title">
-              <i class="fas fa-users"></i> Clientes cadastrados
-            </h2>
-            <p class="panel-subtitle">Consulte, edite ou remova os contatos registrados.</p>
-          </div>
-        </div>
-
-        <div class="search">
-          <i class="fas fa-search"></i>
-          <input type="search" id="pesquisa" placeholder="Pesquisar por nome, e-mail ou telefone...">
-        </div>
-
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Cliente</th>
-                <th>E-mail</th>
-                <th>Telefone</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="tabelaClientes"></tbody>
-          </table>
-
-          <div class="empty" id="mensagemVazia">
-            <i class="fas fa-user-group"></i>
-            Nenhum cliente cadastrado ainda.
-          </div>
-        </div>
-      </section>
-
-      <footer>
-        Desenvolvido por <span>Alisson Silva</span> · <span id="ano"></span>
-      </footer>
-
-    </main>
-  </div>
-
-  <script>
-    const CHAVE = "alisson_cadastro_clientes_v2";
-
-    const form = document.getElementById("formCliente");
-    const nomeInput = document.getElementById("nome");
-    const emailInput = document.getElementById("email");
-    const telefoneInput = document.getElementById("telefone");
-    const tabela = document.getElementById("tabelaClientes");
-    const pesquisa = document.getElementById("pesquisa");
-    const mensagemVazia = document.getElementById("mensagemVazia");
-    const btnSalvar = document.getElementById("btnSalvar");
-    const btnCancelar = document.getElementById("btnCancelar");
-
-    let clientes = carregarClientes();
-    let editandoId = null;
-
-    function carregarClientes() {
-      try {
-        const dados = JSON.parse(localStorage.getItem(CHAVE) || "[]");
-        return Array.isArray(dados) ? dados : [];
-      } catch {
-        return [];
-      }
+  function el(tag, props = {}, ...filhos) {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(props)) {
+      if (k === "class") e.className = v; else if (k === "style") e.style.cssText = v;
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
     }
+    e.append(...filhos); return e;
+  }
+  function aviso(msg) { const a = el("div", { class: "aviso" }, msg); $("avisos").append(a); setTimeout(() => a.remove(), 2600); }
+  function registrar(texto) { log.unshift({ texto, quando: Date.now() }); log = log.slice(0, 30); gravar(CHAVE_LOG, log); }
+  function mascara(v) {
+    const d = digitos(v).slice(0, 11);
+    if (d.length <= 2) return d ? "(" + d : "";
+    if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+    return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+  }
 
-    function salvarDados() {
-      localStorage.setItem(CHAVE, JSON.stringify(clientes));
-    }
-
-    function criarAvatar(nome) {
-      return nome
-        .trim()
-        .split(/\s+/)
-        .slice(0, 2)
-        .map(parte => parte.charAt(0).toUpperCase())
-        .join("");
-    }
-
-    function atualizarTela() {
-      const termo = pesquisa.value.toLowerCase().trim();
-
-      const filtrados = clientes.filter(cliente =>
-        cliente.nome.toLowerCase().includes(termo) ||
-        cliente.email.toLowerCase().includes(termo) ||
-        cliente.telefone.toLowerCase().includes(termo)
-      );
-
-      tabela.innerHTML = "";
-
-      filtrados.forEach(cliente => {
-        const linha = document.createElement("tr");
-
-        const nome = document.createElement("td");
-        const info = document.createElement("div");
-        const avatar = document.createElement("div");
-        const nomeTexto = document.createElement("span");
-
-        info.className = "client-info";
-        avatar.className = "avatar";
-        avatar.textContent = criarAvatar(cliente.nome);
-
-        nomeTexto.className = "client-name";
-        nomeTexto.textContent = cliente.nome;
-
-        info.append(avatar, nomeTexto);
-        nome.appendChild(info);
-
-        const email = document.createElement("td");
-        email.className = "email-text";
-        email.textContent = cliente.email;
-
-        const telefone = document.createElement("td");
-        telefone.className = "phone-text";
-        telefone.textContent = cliente.telefone || "Não informado";
-
-        const acoes = document.createElement("td");
-        const botoes = document.createElement("div");
-        botoes.className = "action-buttons";
-
-        const editar = document.createElement("button");
-        editar.className = "icon-btn";
-        editar.type = "button";
-        editar.title = "Editar cliente";
-        editar.setAttribute("aria-label", "Editar " + cliente.nome);
-        editar.innerHTML = '<i class="fas fa-pen"></i>';
-        editar.addEventListener("click", () => editarCliente(cliente.id));
-
-        const excluir = document.createElement("button");
-        excluir.className = "icon-btn delete-btn";
-        excluir.type = "button";
-        excluir.title = "Excluir cliente";
-        excluir.setAttribute("aria-label", "Excluir " + cliente.nome);
-        excluir.innerHTML = '<i class="fas fa-trash"></i>';
-        excluir.addEventListener("click", () => excluirCliente(cliente.id));
-
-        botoes.append(editar, excluir);
-        acoes.appendChild(botoes);
-
-        linha.append(nome, email, telefone, acoes);
-        tabela.appendChild(linha);
-      });
-
-      document.getElementById("totalClientes").textContent = clientes.length;
-      document.getElementById("clientesVisiveis").textContent = filtrados.length;
-
-      mensagemVazia.style.display = filtrados.length ? "none" : "block";
-
-      if (!filtrados.length) {
-        mensagemVazia.innerHTML = '<i class="fas fa-user-group"></i>';
-
-        mensagemVazia.appendChild(
-          document.createTextNode(
-            clientes.length
-              ? "Nenhum cliente encontrado na pesquisa."
-              : "Nenhum cliente cadastrado ainda."
-          )
-        );
-      }
-    }
-
-    form.addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const nome = nomeInput.value.trim();
-      const email = emailInput.value.trim().toLowerCase();
-      const telefone = telefoneInput.value.trim();
-
-      if (!nome || !email) {
-        alert("Preencha nome e e-mail.");
-        return;
-      }
-
-      const emailExistente = clientes.some(cliente =>
-        cliente.email.toLowerCase() === email &&
-        cliente.id !== editandoId
-      );
-
-      if (emailExistente) {
-        alert("Já existe um cliente cadastrado com esse e-mail.");
-        return;
-      }
-
-      if (editandoId !== null) {
-        const indice = clientes.findIndex(cliente => cliente.id === editandoId);
-
-        if (indice !== -1) {
-          clientes[indice] = {
-            ...clientes[indice],
-            nome,
-            email,
-            telefone
-          };
-        }
-      } else {
-        clientes.push({
-          id: crypto.randomUUID(),
-          nome,
-          email,
-          telefone
-        });
-      }
-
-      salvarDados();
-      cancelarEdicao();
-      atualizarTela();
+  function grafico() {
+    const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+    const ini = hoje.getTime() - 29 * DIA;
+    let acum = clientes.filter((c) => !c.criadoEm || c.criadoEm < ini).length;
+    const pts = Array.from({ length: 30 }, (_, i) => {
+      const a = ini + i * DIA;
+      acum += clientes.filter((c) => c.criadoEm >= a && c.criadoEm < a + DIA).length;
+      return acum;
     });
+    const topo = Math.max(4, Math.ceil(Math.max(...pts) / 4) * 4);
+    const X = (i) => 50 + (i / 29) * 530, Y = (v) => 170 - (v / topo) * 150;
+    const linha = pts.map((v, i) => `${X(i)},${Y(v)}`).join(" ");
+    const grade = [0, 0.5, 1].map((f) => `<line x1="50" x2="580" y1="${Y(topo * f)}" y2="${Y(topo * f)}" stroke="#e8ebf5"/><text x="42" y="${Y(topo * f) + 4}" text-anchor="end" font-size="11" fill="#6b738f">${Math.round(topo * f)}</text>`).join("");
+    const rot = [0, 14, 29].map((i) => `<text x="${X(i)}" y="195" text-anchor="${i === 0 ? "start" : i === 29 ? "end" : "middle"}" font-size="11" fill="#6b738f">${new Date(ini + i * DIA).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}</text>`).join("");
+    $("grafico").innerHTML = `<svg class="graf" viewBox="0 0 600 205" role="img" aria-label="Total de clientes nos últimos 30 dias, chegando a ${pts[29]}">${grade}${rot}<polygon points="50,170 ${linha} 580,170" fill="#3b5bf5" opacity=".08"/><polyline points="${linha}" fill="none" stroke="#3b5bf5" stroke-width="2.5" stroke-linejoin="round"/><circle cx="580" cy="${Y(pts[29])}" r="4" fill="#3b5bf5"/></svg>`;
+  }
 
-    function editarCliente(id) {
-      const cliente = clientes.find(item => item.id === id);
-      if (!cliente) return;
+  function render() {
+    const total = clientes.length, por = (s) => clientes.filter((c) => c.status === s).length;
+    const sete = clientes.filter((c) => c.criadoEm && Date.now() - c.criadoEm < 7 * DIA).length;
+    const fone = clientes.filter((c) => digitos(c.telefone).length >= 10).length;
+    const pct = (n) => (total ? Math.round((n / total) * 100) + "% da base" : "");
+    $("kTotal").textContent = total; $("kTotalE").textContent = sete ? `+${sete} nos últimos 7 dias` : "";
+    $("kNovo").textContent = por("Novo"); $("kNovoE").textContent = pct(por("Novo"));
+    $("kFone").textContent = fone; $("kFoneE").textContent = pct(fone);
+    $("kGanho").textContent = por("Cliente"); $("kGanhoE").textContent = pct(por("Cliente"));
+    $("fTotal").textContent = total;
 
-      editandoId = id;
-      nomeInput.value = cliente.nome;
-      emailInput.value = cliente.email;
-      telefoneInput.value = cliente.telefone;
+    grafico();
 
-      document.getElementById("tituloFormulario").innerHTML =
-        '<i class="fas fa-user-pen"></i> Editar cliente';
+    $("funil").replaceChildren(...STATUS.map((s, i) =>
+      el("div", { class: "etapa" },
+        el("div", { class: "f", style: `width:${100 - i * 18}%;background:${FUNIL[i]};color:${i === 0 ? "#fff" : "#1c2340"}` }, s),
+        el("b", {}, String(por(s))))));
 
-      btnSalvar.innerHTML = '<i class="fas fa-save"></i> Salvar alterações';
-      btnCancelar.hidden = false;
+    const rec = [...clientes].sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0)).slice(0, 5);
+    $("recentes").replaceChildren(...(rec.length ? rec.map((c) =>
+      el("div", { class: "linha" }, el("span", { class: "av", style: "background:" + corDe(c.nome) }, iniciais(c.nome)),
+        el("div", { class: "t" }, el("b", {}, c.nome), el("span", {}, c.email)),
+        el("span", { class: "st s-" + c.status }, c.status), el("span", { class: "quando" }, c.criadoEm ? ha(c.criadoEm) : "")))
+      : [el("div", { class: "vazio" }, el("b", {}, "Nenhum cliente ainda"), "Clique em “Novo cliente” para começar.")]));
 
-      form.scrollIntoView({ behavior: "smooth" });
-      nomeInput.focus();
+    $("log").replaceChildren(...(log.length ? log.slice(0, 6).map((l) =>
+      el("div", { class: "linha" }, el("span", { class: "ai" }, "•"), el("div", { class: "t" }, el("b", {}, l.texto)), el("span", { class: "quando" }, ha(l.quando))))
+      : [el("div", { class: "vazio" }, el("b", {}, "Sem atividade"), "Cadastros, edições e exclusões aparecem aqui.")]));
+
+    tabela();
+  }
+
+  function filtrados() {
+    const q = $("busca").value.toLowerCase().trim(), qd = digitos(q), st = $("filtro").value;
+    return clientes
+      .filter((c) => (!st || c.status === st) && (c.nome.toLowerCase().includes(q) || c.email.toLowerCase().includes(q) ||
+        (c.telefone || "").includes(q) || (qd && digitos(c.telefone).includes(qd))))
+      .sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0) || a.nome.localeCompare(b.nome, "pt-BR"));
+  }
+
+  function tabela() {
+    const f = filtrados();
+    $("corpo").replaceChildren(...f.map((c) => {
+      const fone = digitos(c.telefone);
+      const sel = el("select", { class: "st s-" + c.status, "aria-label": "Status de " + c.nome }, ...STATUS.map((s) => el("option", { value: s }, s)));
+      sel.value = c.status;
+      sel.addEventListener("change", () => { c.status = sel.value; registrar(`${c.nome} agora é "${c.status}"`); gravar(CHAVE, clientes); render(); });
+      const acao = el("div", { class: "acao" });
+      if (fone.length >= 10) acao.append(el("a", { class: "bt", href: "https://wa.me/55" + fone, target: "_blank", rel: "noopener noreferrer", "aria-label": "Chamar " + c.nome + " no WhatsApp" }, "WhatsApp"));
+      acao.append(el("button", { class: "bt", type: "button", "aria-label": "Editar " + c.nome, onclick: () => abrirForm(c) }, "Editar"),
+        el("button", { class: "bt x", type: "button", "aria-label": "Excluir " + c.nome, onclick: () => { excluirId = c.id; $("delTexto").textContent = `${c.nome} será removido. Essa ação não pode ser desfeita.`; $("dlgDel").showModal(); } }, "Excluir"));
+      return el("tr", {},
+        el("td", {}, el("div", { class: "cli" }, el("span", { class: "av", style: "background:" + corDe(c.nome) }, iniciais(c.nome)),
+          el("div", {}, el("b", {}, c.nome), el("a", { href: "mailto:" + c.email, style: "color:var(--muted);font-size:12px;text-decoration:none" }, c.email)))),
+        el("td", {}, c.telefone || "Não informado"), el("td", {}, sel), el("td", {}, dataBR(c.criadoEm)), el("td", {}, acao));
+    }));
+    $("vazio").hidden = f.length > 0;
+    $("vazioT").textContent = clientes.length ? "Nenhum resultado" : "Nenhum cliente cadastrado";
+    $("vazioS").textContent = clientes.length ? "Tente outra busca ou outro status." : "Use o botão “Novo cliente” para cadastrar o primeiro.";
+    $("contagem").textContent = clientes.length ? `Mostrando ${f.length} de ${clientes.length}` : "";
+  }
+
+  function erro(campo, msg) {
+    $("e" + campo[0].toUpperCase() + campo.slice(1)).textContent = msg;
+    $(campo).setAttribute("aria-invalid", msg ? "true" : "false");
+    return !msg;
+  }
+
+  function abrirForm(c) {
+    editandoId = c ? c.id : null;
+    $("form").reset(); ["nome", "email", "tel"].forEach((k) => erro(k, ""));
+    $("nome").value = c ? c.nome : ""; $("email").value = c ? c.email : ""; $("tel").value = c ? c.telefone || "" : "";
+    $("status").value = c ? c.status : "Novo";
+    $("tituloForm").textContent = c ? "Editar cliente" : "Novo cliente";
+    $("btnSalvar").textContent = c ? "Salvar alterações" : "Cadastrar";
+    $("dlgForm").showModal(); $("nome").focus();
+  }
+
+  $("form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nome = $("nome").value.trim().replace(/\s+/g, " "), email = $("email").value.trim().toLowerCase();
+    const telefone = $("tel").value.trim(), status = $("status").value;
+    const dup = clientes.some((c) => c.email.toLowerCase() === email && c.id !== editandoId);
+    const a = erro("nome", nome.length < 2 ? "Informe o nome do cliente." : "");
+    const b = erro("email", !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? "Informe um e-mail válido." : dup ? "Já existe um cliente com este e-mail." : "");
+    const c = erro("tel", telefone && digitos(telefone).length < 10 ? "Use DDD + número (10 ou 11 dígitos)." : "");
+    if (!(a && b && c)) { (!a ? $("nome") : !b ? $("email") : $("tel")).focus(); return; }
+    if (editandoId) {
+      clientes = clientes.map((x) => (x.id === editandoId ? { ...x, nome, email, telefone, status } : x));
+      registrar(`${nome} foi atualizado`); aviso("Cliente atualizado.");
+    } else {
+      clientes.push({ id: novoId(), nome, email, telefone, status, criadoEm: Date.now() });
+      registrar(`${nome} foi cadastrado`); aviso("Cliente cadastrado.");
     }
+    gravar(CHAVE, clientes); $("dlgForm").close(); render();
+  });
 
-    function excluirCliente(id) {
-      const cliente = clientes.find(item => item.id === id);
-      if (!cliente) return;
+  $("delSim").addEventListener("click", () => {
+    const c = clientes.find((x) => x.id === excluirId);
+    clientes = clientes.filter((x) => x.id !== excluirId);
+    if (c) registrar(`${c.nome} foi excluído`);
+    gravar(CHAVE, clientes); $("dlgDel").close(); render(); aviso("Cliente excluído.");
+  });
+  $("delNao").addEventListener("click", () => $("dlgDel").close());
+  $("cancelar").addEventListener("click", () => $("dlgForm").close());
 
-      if (!confirm(`Deseja excluir o cliente ${cliente.nome}?`)) return;
+  $("exportar").addEventListener("click", () => {
+    const f = filtrados();
+    if (!f.length) { aviso("Não há clientes para exportar."); return; }
+    const cel = (v) => { v = String(v || ""); if (/^[=+\-@]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; };
+    const linhas = [["Nome", "E-mail", "Telefone", "Status"], ...f.map((c) => [c.nome, c.email, c.telefone, c.status])].map((l) => l.map(cel).join(";"));
+    const url = URL.createObjectURL(new Blob(["\ufeff" + linhas.join("\r\n")], { type: "text/csv;charset=utf-8" }));
+    const a = el("a", { href: url, download: "clientes.csv" }); document.body.append(a); a.click(); a.remove();
+    URL.revokeObjectURL(url); aviso("Arquivo clientes.csv gerado.");
+  });
 
-      clientes = clientes.filter(item => item.id !== id);
-
-      if (editandoId === id) cancelarEdicao();
-
-      salvarDados();
-      atualizarTela();
-    }
-
-    function cancelarEdicao() {
-      editandoId = null;
-      form.reset();
-
-      document.getElementById("tituloFormulario").innerHTML =
-        '<i class="fas fa-user-plus"></i> Novo cliente';
-
-      btnSalvar.innerHTML = '<i class="fas fa-plus"></i> Cadastrar cliente';
-      btnCancelar.hidden = true;
-    }
-
-    btnCancelar.addEventListener("click", cancelarEdicao);
-    pesquisa.addEventListener("input", atualizarTela);
-
-    document.getElementById("ano").textContent = new Date().getFullYear();
-
-    atualizarTela();
-  </script>
+  STATUS.forEach((s) => { $("status").append(el("option", { value: s }, s)); $("filtro").append(el("option", { value: s }, s)); });
+  $("tel").addEventListener("input", (e) => { e.target.value = mascara(e.target.value); });
+  $("busca").addEventListener("input", tabela);
+  $("filtro").addEventListener("change", tabela);
+  $("abrirNovo").addEventListener("click", () => abrirForm(null));
+  $("abrirNovo2").addEventListener("click", () => abrirForm(null));
+  render();
+</script>
 </body>
 </html>
