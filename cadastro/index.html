@@ -5,128 +5,909 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clientes | Alisson.dev</title>
 <meta name="theme-color" content="#3b5bf5">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-  :root { --bg:#f5f7fd; --card:#fff; --ink:#151a33; --muted:#6b738f; --line:#e8ebf5; --blue:#3b5bf5; --red:#ef4444;
-    --font:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif; }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  html { scroll-behavior:smooth; scroll-padding-top:16px; }
-  body { background:var(--bg); color:var(--ink); font:14px/1.5 var(--font); }
-  button,input,select { font:inherit; color:inherit; }
-  :focus-visible { outline:2px solid var(--blue); outline-offset:2px; border-radius:6px; }
-  [hidden] { display:none !important; }
-  .app { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
-  @media (max-width:900px){ .app{grid-template-columns:1fr;} .side{display:none;} }
+:root {
+  --bg:#f5f7fd;
+  --card:#fff;
+  --ink:#151a33;
+  --muted:#6b738f;
+  --line:#e8ebf5;
+  --blue:#3b5bf5;
+  --red:#ef4444;
+  --font:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif;
+}
 
-  .side { background:var(--card); border-right:1px solid var(--line); padding:24px 16px; position:sticky; top:0; height:100vh; display:flex; flex-direction:column; gap:4px; }
-  .brand { font-weight:800; font-size:20px; padding:0 10px 18px; text-decoration:none; }
-  .brand span { color:var(--blue); }
-  .side .novo { margin-bottom:14px; }
-  .side a.nav { display:flex; gap:12px; padding:11px 12px; border-radius:10px; color:var(--muted); text-decoration:none; font-weight:500; }
-  .side a.nav:hover { background:#eef1ff; color:var(--blue); }
-  .side a.nav.on { background:var(--blue); color:#fff; }
-  .side hr { border:0; border-top:1px solid var(--line); margin:12px 0; }
-  .side .fim { margin-top:auto; font-size:12px; color:var(--muted); padding:0 10px; }
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-  main { padding:24px 30px 48px; display:grid; gap:18px; min-width:0; max-width:1300px; width:100%; margin:0 auto; }
-  @media (max-width:640px){ main{padding:16px 14px 40px;} }
-  .topo { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-  h1 { font-size:24px; letter-spacing:-.02em; }
-  .sub { color:var(--muted); }
-  .topo-dir { display:flex; align-items:center; gap:12px; flex:1 1 280px; justify-content:flex-end; }
-  .busca { flex:1; max-width:340px; min-height:42px; border:1px solid var(--line); background:var(--card); border-radius:12px; padding:0 16px; }
-  .av { width:38px; height:38px; border-radius:50%; color:#fff; display:grid; place-items:center; font-size:13px; font-weight:700; flex-shrink:0; }
-  .mnav { display:none; gap:14px; font-size:13px; flex-wrap:wrap; }
-  @media (max-width:900px){ .mnav{display:flex;} }
-  .mnav a { color:var(--blue); font-weight:600; text-decoration:none; }
+html {
+  scroll-behavior:smooth;
+  scroll-padding-top:16px;
+}
 
-  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px; min-width:0; }
-  .cab { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
-  .cab h2 { font-size:16px; }
-  .cab small { color:var(--muted); }
+body {
+  background:var(--bg);
+  color:var(--ink);
+  font:14px/1.5 var(--font);
+  overflow-x:hidden;
+}
 
-  .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-  @media (max-width:1000px){ .kpis{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:480px){ .kpis{grid-template-columns:1fr;} }
-  .kpi { display:flex; gap:14px; align-items:center; }
-  .ic { width:48px; height:48px; border-radius:14px; display:grid; place-items:center; font-size:20px; flex-shrink:0; }
-  .kpi small { color:var(--muted); display:block; }
-  .kpi b { font-size:26px; line-height:1.15; display:block; }
-  .kpi em { font-style:normal; font-size:12px; color:#16a34a; font-weight:600; }
+button,input,select {
+  font:inherit;
+  color:inherit;
+}
 
-  .g2 { display:grid; grid-template-columns:1.25fr 1fr; gap:14px; }
-  @media (max-width:1000px){ .g2{grid-template-columns:1fr;} }
-  svg.graf { width:100%; height:auto; display:block; }
-  .funil { display:grid; gap:8px; }
-  .etapa { display:grid; grid-template-columns:1fr 64px; gap:12px; align-items:center; }
-  .etapa .f { margin:0 auto; height:42px; border-radius:6px; display:grid; place-items:center; font-weight:600; font-size:13px; }
-  .etapa b { text-align:right; }
-  .total { display:flex; justify-content:space-between; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); align-items:center; }
-  .total b { font-size:22px; color:var(--ink); }
+:focus-visible {
+  outline:2px solid var(--blue);
+  outline-offset:2px;
+  border-radius:6px;
+}
 
-  .linha { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); }
-  .linha:last-child { border-bottom:0; }
-  .linha .t { flex:1; min-width:0; } .linha .t b, .linha .t span { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .linha .t span, .quando { color:var(--muted); font-size:12px; }
-  .quando { white-space:nowrap; }
-  .ai { width:36px; height:36px; border-radius:10px; display:grid; place-items:center; background:#eef1ff; color:var(--blue); flex-shrink:0; font-weight:700; }
-  .vazio { text-align:center; color:var(--muted); padding:28px 12px; }
-  .vazio b { display:block; color:var(--ink); margin-bottom:2px; }
+[hidden] {
+  display:none !important;
+}
 
-  .st { border:0; border-radius:8px; padding:3px 10px; font-size:12px; font-weight:600; }
-  select.st { cursor:pointer; padding-right:4px; }
-  .s-Novo{background:#e5edff;color:#2b57d6;} .s-Contatado{background:#e0f5e8;color:#16803c;}
-  .s-Qualificado{background:#fff0d1;color:#a8680b;} .s-Cliente{background:#eee4ff;color:#7c3aed;}
+.app {
+  display:grid;
+  grid-template-columns:240px minmax(0,1fr);
+  min-height:100vh;
+}
 
-  .barra { display:flex; gap:10px; flex-wrap:wrap; }
-  .barra select { min-height:38px; border:1px solid var(--line); border-radius:10px; padding:0 12px; background:#fff; }
-  .tabela { overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin-top:6px; }
-  table { width:100%; border-collapse:collapse; min-width:680px; }
-  th,td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--line); vertical-align:middle; }
-  th { font-size:12px; color:var(--muted); font-weight:600; background:#f9faff; }
-  tbody tr:last-child td { border-bottom:0; } tbody tr:hover { background:#f9faff; }
-  .cli { display:flex; gap:12px; align-items:center; } .cli b { display:block; } .cli span { color:var(--muted); font-size:12px; }
-  .acao { display:flex; gap:6px; }
-  .bt { min-height:32px; padding:0 10px; border-radius:8px; border:1px solid var(--line); background:#fff; cursor:pointer; font-size:12px; font-weight:600; color:var(--muted); text-decoration:none; display:inline-grid; place-items:center; }
-  .bt:hover { color:var(--blue); border-color:var(--blue); } .bt.x:hover { color:var(--red); border-color:var(--red); }
-  .rod { margin-top:10px; color:var(--muted); font-size:13px; }
+.side {
+  background:var(--card);
+  border-right:1px solid var(--line);
+  padding:24px 16px;
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
 
-  .btn { min-height:42px; padding:0 18px; border-radius:10px; border:0; font-weight:600; cursor:pointer; background:var(--blue); color:#fff; }
-  .btn:hover { filter:brightness(1.1); } .btn.s { background:var(--bg); color:var(--ink); } .btn.d { background:var(--red); }
-  dialog { border:0; border-radius:16px; padding:24px; width:min(440px,92vw); margin:auto; box-shadow:0 20px 60px rgba(20,30,80,.3); }
-  dialog::backdrop { background:rgba(15,20,50,.5); }
-  dialog h2 { margin-bottom:14px; } dialog p { color:var(--muted); margin-bottom:16px; }
-  .campo { margin-bottom:6px; } .campo label { display:block; font-weight:600; font-size:13px; margin-bottom:5px; }
-  .campo input, .campo select { width:100%; min-height:44px; border:1.5px solid var(--line); border-radius:10px; padding:0 14px; background:#fff; }
-  .campo input:focus, .campo select:focus { border-color:var(--blue); outline:none; box-shadow:0 0 0 3px #3b5bf51f; }
-  .campo input[aria-invalid="true"] { border-color:var(--red); }
-  .erro { color:var(--red); font-size:12px; min-height:18px; }
-  .botoes { display:flex; gap:10px; margin-top:8px; }
-  #avisos { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); display:grid; gap:8px; z-index:50; }
-  .aviso { background:var(--ink); color:#fff; padding:10px 18px; border-radius:10px; font-weight:500; }
+.brand {
+  font-weight:800;
+  font-size:20px;
+  padding:0 10px 18px;
+  text-decoration:none;
+  color:var(--ink);
+}
+
+.brand span {
+  color:var(--blue);
+}
+
+.side .novo {
+  margin-bottom:14px;
+}
+
+.side a.nav {
+  display:flex;
+  gap:12px;
+  padding:11px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:500;
+}
+
+.side a.nav:hover {
+  background:#eef1ff;
+  color:var(--blue);
+}
+
+.side a.nav.on {
+  background:var(--blue);
+  color:#fff;
+}
+
+.side hr {
+  border:0;
+  border-top:1px solid var(--line);
+  margin:12px 0;
+}
+
+.side .fim {
+  margin-top:auto;
+  font-size:12px;
+  color:var(--muted);
+  padding:0 10px;
+}
+
+main {
+  padding:24px 30px 48px;
+  display:grid;
+  gap:18px;
+  min-width:0;
+  max-width:1300px;
+  width:100%;
+  margin:0 auto;
+}
+
+.topo {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+h1 {
+  font-size:24px;
+  letter-spacing:-.02em;
+}
+
+.sub {
+  color:var(--muted);
+}
+
+.topo-dir {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex:1 1 280px;
+  justify-content:flex-end;
+}
+
+.busca {
+  flex:1;
+  max-width:340px;
+  min-height:42px;
+  border:1px solid var(--line);
+  background:var(--card);
+  border-radius:12px;
+  padding:0 16px;
+  min-width:0;
+}
+
+.av {
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-size:13px;
+  font-weight:700;
+  flex-shrink:0;
+}
+
+.mnav {
+  display:none;
+  gap:8px;
+  font-size:13px;
+  flex-wrap:wrap;
+}
+
+.mnav a {
+  color:var(--blue);
+  font-weight:600;
+  text-decoration:none;
+  background:#eef1ff;
+  padding:9px 12px;
+  border-radius:9px;
+}
+
+.card {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+  min-width:0;
+}
+
+.cab {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+
+.cab h2 {
+  font-size:16px;
+}
+
+.cab small {
+  color:var(--muted);
+}
+
+.kpis {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+
+.kpi {
+  display:flex;
+  gap:14px;
+  align-items:center;
+  min-width:0;
+}
+
+.ic {
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-size:20px;
+  flex-shrink:0;
+}
+
+.kpi small {
+  color:var(--muted);
+  display:block;
+}
+
+.kpi b {
+  font-size:26px;
+  line-height:1.15;
+  display:block;
+}
+
+.kpi em {
+  font-style:normal;
+  font-size:12px;
+  color:#16a34a;
+  font-weight:600;
+}
+
+.g2 {
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+  gap:14px;
+}
+
+svg.graf {
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+.funil {
+  display:grid;
+  gap:8px;
+}
+
+.etapa {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 64px;
+  gap:12px;
+  align-items:center;
+}
+
+.etapa .f {
+  margin:0 auto;
+  height:42px;
+  border-radius:6px;
+  display:grid;
+  place-items:center;
+  font-weight:600;
+  font-size:13px;
+}
+
+.etapa b {
+  text-align:right;
+}
+
+.total {
+  display:flex;
+  justify-content:space-between;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  align-items:center;
+}
+
+.total b {
+  font-size:22px;
+  color:var(--ink);
+}
+
+.linha {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+  min-width:0;
+}
+
+.linha:last-child {
+  border-bottom:0;
+}
+
+.linha .t {
+  flex:1;
+  min-width:0;
+}
+
+.linha .t b,
+.linha .t span {
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.linha .t span,
+.quando {
+  color:var(--muted);
+  font-size:12px;
+}
+
+.quando {
+  white-space:nowrap;
+}
+
+.ai {
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:#eef1ff;
+  color:var(--blue);
+  flex-shrink:0;
+  font-weight:700;
+}
+
+.vazio {
+  text-align:center;
+  color:var(--muted);
+  padding:28px 12px;
+}
+
+.vazio b {
+  display:block;
+  color:var(--ink);
+  margin-bottom:2px;
+}
+
+.st {
+  border:0;
+  border-radius:8px;
+  padding:3px 10px;
+  font-size:12px;
+  font-weight:600;
+}
+
+select.st {
+  cursor:pointer;
+  padding-right:4px;
+}
+
+.s-Novo {
+  background:#e5edff;
+  color:#2b57d6;
+}
+
+.s-Contatado {
+  background:#e0f5e8;
+  color:#16803c;
+}
+
+.s-Qualificado {
+  background:#fff0d1;
+  color:#a8680b;
+}
+
+.s-Cliente {
+  background:#eee4ff;
+  color:#7c3aed;
+}
+
+.barra {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.barra select {
+  min-height:38px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:0 12px;
+  background:#fff;
+}
+
+.tabela {
+  overflow-x:auto;
+  border:1px solid var(--line);
+  border-radius:12px;
+  margin-top:6px;
+  -webkit-overflow-scrolling:touch;
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  min-width:680px;
+}
+
+th,td {
+  text-align:left;
+  padding:12px 16px;
+  border-bottom:1px solid var(--line);
+  vertical-align:middle;
+}
+
+th {
+  font-size:12px;
+  color:var(--muted);
+  font-weight:600;
+  background:#f9faff;
+}
+
+tbody tr:last-child td {
+  border-bottom:0;
+}
+
+tbody tr:hover {
+  background:#f9faff;
+}
+
+.cli {
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.cli b {
+  display:block;
+}
+
+.cli span {
+  color:var(--muted);
+  font-size:12px;
+}
+
+.acao {
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.bt {
+  min-height:36px;
+  padding:0 10px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:#fff;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:600;
+  color:var(--muted);
+  text-decoration:none;
+  display:inline-grid;
+  place-items:center;
+}
+
+.bt:hover {
+  color:var(--blue);
+  border-color:var(--blue);
+}
+
+.bt.x:hover {
+  color:var(--red);
+  border-color:var(--red);
+}
+
+.rod {
+  margin-top:10px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.btn {
+  min-height:42px;
+  padding:0 18px;
+  border-radius:10px;
+  border:0;
+  font-weight:600;
+  cursor:pointer;
+  background:var(--blue);
+  color:#fff;
+}
+
+.btn:hover {
+  filter:brightness(1.1);
+}
+
+.btn.s {
+  background:var(--bg);
+  color:var(--ink);
+}
+
+.btn.d {
+  background:var(--red);
+}
+
+dialog {
+  border:0;
+  border-radius:16px;
+  padding:24px;
+  width:min(440px,92vw);
+  max-height:90dvh;
+  overflow-y:auto;
+  margin:auto;
+  box-shadow:0 20px 60px rgba(20,30,80,.3);
+}
+
+dialog::backdrop {
+  background:rgba(15,20,50,.5);
+}
+
+dialog h2 {
+  margin-bottom:14px;
+}
+
+dialog p {
+  color:var(--muted);
+  margin-bottom:16px;
+}
+
+.campo {
+  margin-bottom:6px;
+}
+
+.campo label {
+  display:block;
+  font-weight:600;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.campo input,
+.campo select {
+  width:100%;
+  min-height:44px;
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  padding:0 14px;
+  background:#fff;
+}
+
+.campo input:focus,
+.campo select:focus {
+  border-color:var(--blue);
+  outline:none;
+  box-shadow:0 0 0 3px #3b5bf51f;
+}
+
+.campo input[aria-invalid="true"] {
+  border-color:var(--red);
+}
+
+.erro {
+  color:var(--red);
+  font-size:12px;
+  min-height:18px;
+}
+
+.botoes {
+  display:flex;
+  gap:10px;
+  margin-top:8px;
+}
+
+.botoes .btn {
+  flex:1;
+}
+
+#avisos {
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  display:grid;
+  gap:8px;
+  z-index:50;
+  width:max-content;
+  max-width:calc(100vw - 24px);
+}
+
+.aviso {
+  background:var(--ink);
+  color:#fff;
+  padding:10px 18px;
+  border-radius:10px;
+  font-weight:500;
+  box-shadow:0 5px 20px #151a3325;
+}
+
+/* TABLETS */
+@media (max-width:1000px) {
+  .app {
+    grid-template-columns:1fr;
+  }
+
+  .side {
+    display:none;
+  }
+
+  .mnav {
+    display:flex;
+  }
+
+  .kpis {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .g2 {
+    grid-template-columns:1fr;
+  }
+
+  main {
+    max-width:900px;
+  }
+}
+
+/* CELULARES */
+@media (max-width:640px) {
+  body {
+    font-size:13px;
+  }
+
+  main {
+    padding:16px 12px 32px;
+    gap:14px;
+  }
+
+  .topo {
+    align-items:flex-start;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  h1 {
+    font-size:22px;
+    line-height:1.3;
+  }
+
+  .topo-dir {
+    width:100%;
+    flex:initial;
+    justify-content:flex-start;
+  }
+
+  .busca {
+    max-width:none;
+    width:100%;
+    min-height:44px;
+  }
+
+  .mnav {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px;
+  }
+
+  .mnav a {
+    text-align:center;
+    padding:10px 5px;
+    font-size:11px;
+  }
+
+  .kpis {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;
+  }
+
+  .card {
+    padding:15px;
+    border-radius:14px;
+  }
+
+  .kpi {
+    gap:9px;
+    align-items:center;
+  }
+
+  .ic {
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    font-size:17px;
+  }
+
+  .kpi small {
+    font-size:11px;
+    line-height:1.3;
+  }
+
+  .kpi b {
+    font-size:21px;
+  }
+
+  .kpi em {
+    font-size:10px;
+  }
+
+  .g2 {
+    gap:12px;
+  }
+
+  .cab {
+    align-items:flex-start;
+  }
+
+  .cab h2 {
+    font-size:15px;
+  }
+
+  .linha {
+    gap:8px;
+  }
+
+  .linha .t b {
+    font-size:12px;
+  }
+
+  .linha .t span {
+    font-size:11px;
+  }
+
+  .quando {
+    font-size:10px;
+  }
+
+  .barra {
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .barra select {
+    grid-column:1 / -1;
+    width:100%;
+    min-height:42px;
+  }
+
+  .barra .btn {
+    width:100%;
+    padding:0 8px;
+    font-size:12px;
+  }
+
+  .tabela {
+    margin-left:-2px;
+    margin-right:-2px;
+  }
+
+  th,td {
+    padding:11px 12px;
+  }
+
+  .rod {
+    font-size:12px;
+  }
+
+  dialog {
+    width:calc(100% - 24px);
+    padding:20px;
+    border-radius:14px;
+  }
+
+  .botoes {
+    flex-direction:column;
+  }
+
+  .botoes .btn {
+    width:100%;
+    min-height:44px;
+  }
+
+  #avisos {
+    bottom:12px;
+  }
+}
+
+/* CELULARES PEQUENOS */
+@media (max-width:380px) {
+  main {
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .kpis {
+    grid-template-columns:1fr;
+  }
+
+  .kpi {
+    padding:3px;
+  }
+
+  .mnav {
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mnav a:last-child {
+    grid-column:1 / -1;
+  }
+
+  .topo-dir {
+    gap:8px;
+  }
+
+  .card {
+    padding:13px;
+  }
+
+  .barra {
+    grid-template-columns:1fr;
+  }
+
+  .barra select {
+    grid-column:auto;
+  }
+}
+
+/* MELHORIAS PARA TOQUE */
+@media (hover:none) {
+  .btn,
+  .bt,
+  .mnav a,
+  .side a.nav {
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .btn {
+    min-height:44px;
+  }
+
+  .bt {
+    min-height:40px;
+  }
+}
 </style>
 </head>
+
 <body>
 <div class="app">
+
   <aside class="side" aria-label="Menu">
     <a class="brand" href="../">Alisson<span>.dev</span></a>
+
     <button class="btn novo" type="button" id="abrirNovo">+ Novo cliente</button>
-    <a class="nav on" href="#painel">▦ Painel</a>
-    <a class="nav" href="#clientes">☰ Clientes</a>
-    <a class="nav" href="#atividade">◔ Atividade</a>
+
+    <a class="nav on" href="#painel">Painel</a>
+    <a class="nav" href="#clientes">Clientes</a>
+    <a class="nav" href="#atividade">Atividade</a>
+
     <hr>
-    <a class="nav" href="../">⌂ Portfólio</a>
-    <a class="nav" href="../todo/">✓ Painel de tarefas</a>
+
+    <a class="nav" href="../">Portfólio</a>
+    <a class="nav" href="../todo/">Painel de tarefas</a>
+
     <p class="fim">Projeto de demonstração. Os dados ficam salvos só neste navegador.</p>
   </aside>
 
   <main id="painel">
-    <nav class="mnav" aria-label="Navegação"><a href="../">Portfólio</a><a href="../todo/">Tarefas</a><a href="#clientes">Lista de clientes</a></nav>
+
+    <nav class="mnav" aria-label="Navegação">
+      <a href="../">Portfólio</a>
+      <a href="../todo/">Tarefas</a>
+      <a href="#clientes">Clientes</a>
+    </nav>
 
     <div class="topo">
-      <div><h1>Bem-vindo de volta, Alisson! 👋</h1><p class="sub">Veja como está o seu cadastro de clientes hoje.</p></div>
+      <div>
+        <h1>Bem-vindo de volta, Alisson</h1>
+        <p class="sub">Veja como está o seu cadastro de clientes hoje.</p>
+      </div>
+
       <div class="topo-dir">
         <input class="busca" id="busca" type="search" placeholder="Buscar cliente..." aria-label="Buscar cliente">
         <span class="av" style="background:var(--blue)">A</span>
@@ -134,241 +915,884 @@
     </div>
 
     <div class="kpis">
-      <div class="card kpi"><span class="ic" style="background:#e5edff;color:#3b5bf5">◉</span><div><small>Total de clientes</small><b id="kTotal">0</b><em id="kTotalE"></em></div></div>
-      <div class="card kpi"><span class="ic" style="background:#fff0d1;color:#d98a0b">★</span><div><small>Novos (status Novo)</small><b id="kNovo">0</b><em id="kNovoE"></em></div></div>
-      <div class="card kpi"><span class="ic" style="background:#e0f5e8;color:#16a34a">✆</span><div><small>Com telefone</small><b id="kFone">0</b><em id="kFoneE"></em></div></div>
-      <div class="card kpi"><span class="ic" style="background:#eee4ff;color:#7c3aed">✓</span><div><small>Já são clientes</small><b id="kGanho">0</b><em id="kGanhoE"></em></div></div>
+      <div class="card kpi">
+        <span class="ic" style="background:#e5edff;color:#3b5bf5">01</span>
+        <div>
+          <small>Total de clientes</small>
+          <b id="kTotal">0</b>
+          <em id="kTotalE"></em>
+        </div>
+      </div>
+
+      <div class="card kpi">
+        <span class="ic" style="background:#fff0d1;color:#d98a0b">02</span>
+        <div>
+          <small>Novos (status Novo)</small>
+          <b id="kNovo">0</b>
+          <em id="kNovoE"></em>
+        </div>
+      </div>
+
+      <div class="card kpi">
+        <span class="ic" style="background:#e0f5e8;color:#16a34a">03</span>
+        <div>
+          <small>Com telefone</small>
+          <b id="kFone">0</b>
+          <em id="kFoneE"></em>
+        </div>
+      </div>
+
+      <div class="card kpi">
+        <span class="ic" style="background:#eee4ff;color:#7c3aed">04</span>
+        <div>
+          <small>Já são clientes</small>
+          <b id="kGanho">0</b>
+          <em id="kGanhoE"></em>
+        </div>
+      </div>
     </div>
 
     <div class="g2">
-      <section class="card"><div class="cab"><h2>Crescimento da base</h2><small>Últimos 30 dias</small></div><div id="grafico"></div></section>
-      <section class="card"><div class="cab"><h2>Funil de clientes</h2><small>Por etapa</small></div>
-        <div class="funil" id="funil"></div>
-        <div class="total"><span>Total na base</span><b id="fTotal">0</b></div>
+
+      <section class="card">
+        <div class="cab">
+          <h2>Crescimento da base</h2>
+          <small>Últimos 30 dias</small>
+        </div>
+        <div id="grafico"></div>
       </section>
+
+      <section class="card">
+        <div class="cab">
+          <h2>Funil de clientes</h2>
+          <small>Por etapa</small>
+        </div>
+
+        <div class="funil" id="funil"></div>
+
+        <div class="total">
+          <span>Total na base</span>
+          <b id="fTotal">0</b>
+        </div>
+      </section>
+
     </div>
 
     <div class="g2">
-      <section class="card"><div class="cab"><h2>Clientes recentes</h2><a href="#clientes" style="color:var(--blue);font-weight:600;text-decoration:none">Ver todos</a></div><div id="recentes"></div></section>
-      <section class="card" id="atividade"><div class="cab"><h2>Atividade recente</h2></div><div id="log"></div></section>
+
+      <section class="card">
+        <div class="cab">
+          <h2>Clientes recentes</h2>
+          <a href="#clientes" style="color:var(--blue);font-weight:600;text-decoration:none">Ver todos</a>
+        </div>
+        <div id="recentes"></div>
+      </section>
+
+      <section class="card" id="atividade">
+        <div class="cab">
+          <h2>Atividade recente</h2>
+        </div>
+        <div id="log"></div>
+      </section>
+
     </div>
 
     <section class="card" id="clientes">
-      <div class="cab"><h2>Todos os clientes</h2>
+
+      <div class="cab">
+        <h2>Todos os clientes</h2>
+
         <div class="barra">
-          <select id="filtro" aria-label="Filtrar por status"><option value="">Todos os status</option></select>
+          <select id="filtro" aria-label="Filtrar por status">
+            <option value="">Todos os status</option>
+          </select>
+
           <button class="btn s" type="button" id="exportar">Exportar CSV</button>
+
           <button class="btn" type="button" id="abrirNovo2">+ Novo cliente</button>
         </div>
       </div>
-      <div class="tabela"><table>
-        <thead><tr><th>Cliente</th><th>Telefone</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr></thead>
-        <tbody id="corpo"></tbody>
-      </table><div class="vazio" id="vazio" hidden><b id="vazioT"></b><span id="vazioS"></span></div></div>
+
+      <div class="tabela">
+        <table>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Telefone</th>
+              <th>Status</th>
+              <th>Cadastro</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody id="corpo"></tbody>
+        </table>
+
+        <div class="vazio" id="vazio" hidden>
+          <b id="vazioT"></b>
+          <span id="vazioS"></span>
+        </div>
+      </div>
+
       <p class="rod" id="contagem"></p>
+
     </section>
+
   </main>
 </div>
 
 <dialog id="dlgForm">
   <h2 id="tituloForm">Novo cliente</h2>
+
   <form id="form" novalidate>
-    <div class="campo"><label for="nome">Nome completo *</label><input id="nome" maxlength="100" autocomplete="off" placeholder="Maria da Silva"><p class="erro" id="eNome"></p></div>
-    <div class="campo"><label for="email">E-mail *</label><input id="email" type="email" maxlength="150" autocomplete="off" placeholder="maria@email.com"><p class="erro" id="eEmail"></p></div>
-    <div class="campo"><label for="tel">Telefone</label><input id="tel" type="tel" maxlength="15" inputmode="numeric" autocomplete="off" placeholder="(88) 99999-9999"><p class="erro" id="eTel"></p></div>
-    <div class="campo"><label for="status">Status</label><select id="status"></select></div>
-    <div class="botoes"><button class="btn" type="submit" id="btnSalvar">Cadastrar</button><button class="btn s" type="button" id="cancelar">Cancelar</button></div>
+
+    <div class="campo">
+      <label for="nome">Nome completo *</label>
+      <input id="nome" maxlength="100" autocomplete="off" placeholder="Maria da Silva">
+      <p class="erro" id="eNome"></p>
+    </div>
+
+    <div class="campo">
+      <label for="email">E-mail *</label>
+      <input id="email" type="email" maxlength="150" autocomplete="off" placeholder="maria@email.com">
+      <p class="erro" id="eEmail"></p>
+    </div>
+
+    <div class="campo">
+      <label for="tel">Telefone</label>
+      <input id="tel" type="tel" maxlength="15" inputmode="numeric" autocomplete="off" placeholder="(88) 99999-9999">
+      <p class="erro" id="eTel"></p>
+    </div>
+
+    <div class="campo">
+      <label for="status">Status</label>
+      <select id="status"></select>
+    </div>
+
+    <div class="botoes">
+      <button class="btn" type="submit" id="btnSalvar">Cadastrar</button>
+      <button class="btn s" type="button" id="cancelar">Cancelar</button>
+    </div>
+
   </form>
 </dialog>
-<dialog id="dlgDel"><h2>Excluir cliente?</h2><p id="delTexto"></p>
-  <div class="botoes"><button class="btn d" id="delSim" type="button">Excluir</button><button class="btn s" id="delNao" type="button">Cancelar</button></div></dialog>
+
+<dialog id="dlgDel">
+  <h2>Excluir cliente?</h2>
+  <p id="delTexto"></p>
+
+  <div class="botoes">
+    <button class="btn d" id="delSim" type="button">Excluir</button>
+    <button class="btn s" id="delNao" type="button">Cancelar</button>
+  </div>
+</dialog>
+
 <div id="avisos" role="status" aria-live="polite"></div>
 
 <script>
-  const CHAVE = "alisson_cadastro_clientes_v2"; // mesma chave: clientes já salvos continuam aparecendo
-  const CHAVE_LOG = "alisson_clientes_atividade";
-  const STATUS = ["Novo", "Contatado", "Qualificado", "Cliente"];
-  const FUNIL = ["#3b5bf5", "#9db8ff", "#7fd3a0", "#f5c557"];
-  const CORES = ["#3b5bf5", "#8b5cf6", "#22b573", "#f59e0b", "#ec4899", "#0ea5e9"];
-  const DIA = 864e5;
-  const $ = (id) => document.getElementById(id);
-  const ler = (k) => { try { const d = JSON.parse(localStorage.getItem(k) || "[]"); return Array.isArray(d) ? d : []; } catch (e) { return []; } };
-  const gravar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { aviso("Não foi possível salvar neste navegador."); } };
+const CHAVE = "alisson_cadastro_clientes_v2";
+const CHAVE_LOG = "alisson_clientes_atividade";
 
-  let clientes = ler(CHAVE).map((c) => ({ ...c, status: STATUS.includes(c.status) ? c.status : "Novo" }));
-  let log = ler(CHAVE_LOG);
-  let editandoId = null, excluirId = null;
+const STATUS = ["Novo", "Contatado", "Qualificado", "Cliente"];
 
-  const novoId = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
-  const digitos = (s) => (s || "").replace(/\D/g, "");
-  const iniciais = (n) => n.trim().split(/\s+/).slice(0, 2).map((p) => p[0].toUpperCase()).join("");
-  const corDe = (n) => CORES[[...n].reduce((s, c) => s + c.charCodeAt(0), 0) % CORES.length];
-  const dataBR = (t) => (t ? new Date(t).toLocaleDateString("pt-BR") : "—");
-  function ha(t) {
-    const m = Math.floor((Date.now() - t) / 6e4);
-    if (m < 1) return "agora"; if (m < 60) return `há ${m} min`;
-    const h = Math.floor(m / 60); if (h < 24) return `há ${h} h`;
-    const d = Math.floor(h / 24); return d === 1 ? "ontem" : `há ${d} dias`;
+const FUNIL = ["#3b5bf5", "#9db8ff", "#7fd3a0", "#f5c557"];
+
+const CORES = ["#3b5bf5", "#8b5cf6", "#22b573", "#f59e0b", "#ec4899", "#0ea5e9"];
+
+const DIA = 864e5;
+
+const $ = (id) => document.getElementById(id);
+
+const ler = (k) => {
+  try {
+    const d = JSON.parse(localStorage.getItem(k) || "[]");
+    return Array.isArray(d) ? d : [];
+  } catch (e) {
+    return [];
   }
+};
 
-  function el(tag, props = {}, ...filhos) {
-    const e = document.createElement(tag);
-    for (const [k, v] of Object.entries(props)) {
-      if (k === "class") e.className = v; else if (k === "style") e.style.cssText = v;
-      else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
-    }
-    e.append(...filhos); return e;
+const gravar = (k, v) => {
+  try {
+    localStorage.setItem(k, JSON.stringify(v));
+  } catch (e) {
+    aviso("Não foi possível salvar neste navegador.");
   }
-  function aviso(msg) { const a = el("div", { class: "aviso" }, msg); $("avisos").append(a); setTimeout(() => a.remove(), 2600); }
-  function registrar(texto) { log.unshift({ texto, quando: Date.now() }); log = log.slice(0, 30); gravar(CHAVE_LOG, log); }
-  function mascara(v) {
-    const d = digitos(v).slice(0, 11);
-    if (d.length <= 2) return d ? "(" + d : "";
-    if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
-    if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
-    return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
-  }
+};
 
-  function grafico() {
-    const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
-    const ini = hoje.getTime() - 29 * DIA;
-    let acum = clientes.filter((c) => !c.criadoEm || c.criadoEm < ini).length;
-    const pts = Array.from({ length: 30 }, (_, i) => {
-      const a = ini + i * DIA;
-      acum += clientes.filter((c) => c.criadoEm >= a && c.criadoEm < a + DIA).length;
-      return acum;
-    });
-    const topo = Math.max(4, Math.ceil(Math.max(...pts) / 4) * 4);
-    const X = (i) => 50 + (i / 29) * 530, Y = (v) => 170 - (v / topo) * 150;
-    const linha = pts.map((v, i) => `${X(i)},${Y(v)}`).join(" ");
-    const grade = [0, 0.5, 1].map((f) => `<line x1="50" x2="580" y1="${Y(topo * f)}" y2="${Y(topo * f)}" stroke="#e8ebf5"/><text x="42" y="${Y(topo * f) + 4}" text-anchor="end" font-size="11" fill="#6b738f">${Math.round(topo * f)}</text>`).join("");
-    const rot = [0, 14, 29].map((i) => `<text x="${X(i)}" y="195" text-anchor="${i === 0 ? "start" : i === 29 ? "end" : "middle"}" font-size="11" fill="#6b738f">${new Date(ini + i * DIA).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}</text>`).join("");
-    $("grafico").innerHTML = `<svg class="graf" viewBox="0 0 600 205" role="img" aria-label="Total de clientes nos últimos 30 dias, chegando a ${pts[29]}">${grade}${rot}<polygon points="50,170 ${linha} 580,170" fill="#3b5bf5" opacity=".08"/><polyline points="${linha}" fill="none" stroke="#3b5bf5" stroke-width="2.5" stroke-linejoin="round"/><circle cx="580" cy="${Y(pts[29])}" r="4" fill="#3b5bf5"/></svg>`;
-  }
+let clientes = ler(CHAVE).map((c) => ({
+  ...c,
+  status: STATUS.includes(c.status) ? c.status : "Novo"
+}));
 
-  function render() {
-    const total = clientes.length, por = (s) => clientes.filter((c) => c.status === s).length;
-    const sete = clientes.filter((c) => c.criadoEm && Date.now() - c.criadoEm < 7 * DIA).length;
-    const fone = clientes.filter((c) => digitos(c.telefone).length >= 10).length;
-    const pct = (n) => (total ? Math.round((n / total) * 100) + "% da base" : "");
-    $("kTotal").textContent = total; $("kTotalE").textContent = sete ? `+${sete} nos últimos 7 dias` : "";
-    $("kNovo").textContent = por("Novo"); $("kNovoE").textContent = pct(por("Novo"));
-    $("kFone").textContent = fone; $("kFoneE").textContent = pct(fone);
-    $("kGanho").textContent = por("Cliente"); $("kGanhoE").textContent = pct(por("Cliente"));
-    $("fTotal").textContent = total;
+let log = ler(CHAVE_LOG);
 
-    grafico();
+let editandoId = null;
+let excluirId = null;
 
-    $("funil").replaceChildren(...STATUS.map((s, i) =>
-      el("div", { class: "etapa" },
-        el("div", { class: "f", style: `width:${100 - i * 18}%;background:${FUNIL[i]};color:${i === 0 ? "#fff" : "#1c2340"}` }, s),
-        el("b", {}, String(por(s))))));
+const novoId = () => (
+  crypto.randomUUID
+    ? crypto.randomUUID()
+    : String(Date.now()) + Math.random()
+);
 
-    const rec = [...clientes].sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0)).slice(0, 5);
-    $("recentes").replaceChildren(...(rec.length ? rec.map((c) =>
-      el("div", { class: "linha" }, el("span", { class: "av", style: "background:" + corDe(c.nome) }, iniciais(c.nome)),
-        el("div", { class: "t" }, el("b", {}, c.nome), el("span", {}, c.email)),
-        el("span", { class: "st s-" + c.status }, c.status), el("span", { class: "quando" }, c.criadoEm ? ha(c.criadoEm) : "")))
-      : [el("div", { class: "vazio" }, el("b", {}, "Nenhum cliente ainda"), "Clique em “Novo cliente” para começar.")]));
+const digitos = (s) => (s || "").replace(/\D/g, "");
 
-    $("log").replaceChildren(...(log.length ? log.slice(0, 6).map((l) =>
-      el("div", { class: "linha" }, el("span", { class: "ai" }, "•"), el("div", { class: "t" }, el("b", {}, l.texto)), el("span", { class: "quando" }, ha(l.quando))))
-      : [el("div", { class: "vazio" }, el("b", {}, "Sem atividade"), "Cadastros, edições e exclusões aparecem aqui.")]));
+const iniciais = (n) => n.trim().split(/\s+/).slice(0, 2).map((p) => p[0].toUpperCase()).join("");
 
-    tabela();
-  }
+const corDe = (n) => CORES[
+  [...n].reduce((s, c) => s + c.charCodeAt(0), 0) % CORES.length
+];
 
-  function filtrados() {
-    const q = $("busca").value.toLowerCase().trim(), qd = digitos(q), st = $("filtro").value;
-    return clientes
-      .filter((c) => (!st || c.status === st) && (c.nome.toLowerCase().includes(q) || c.email.toLowerCase().includes(q) ||
-        (c.telefone || "").includes(q) || (qd && digitos(c.telefone).includes(qd))))
-      .sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0) || a.nome.localeCompare(b.nome, "pt-BR"));
-  }
+const dataBR = (t) => (
+  t ? new Date(t).toLocaleDateString("pt-BR") : "—"
+);
 
-  function tabela() {
-    const f = filtrados();
-    $("corpo").replaceChildren(...f.map((c) => {
-      const fone = digitos(c.telefone);
-      const sel = el("select", { class: "st s-" + c.status, "aria-label": "Status de " + c.nome }, ...STATUS.map((s) => el("option", { value: s }, s)));
-      sel.value = c.status;
-      sel.addEventListener("change", () => { c.status = sel.value; registrar(`${c.nome} agora é "${c.status}"`); gravar(CHAVE, clientes); render(); });
-      const acao = el("div", { class: "acao" });
-      if (fone.length >= 10) acao.append(el("a", { class: "bt", href: "https://wa.me/55" + fone, target: "_blank", rel: "noopener noreferrer", "aria-label": "Chamar " + c.nome + " no WhatsApp" }, "WhatsApp"));
-      acao.append(el("button", { class: "bt", type: "button", "aria-label": "Editar " + c.nome, onclick: () => abrirForm(c) }, "Editar"),
-        el("button", { class: "bt x", type: "button", "aria-label": "Excluir " + c.nome, onclick: () => { excluirId = c.id; $("delTexto").textContent = `${c.nome} será removido. Essa ação não pode ser desfeita.`; $("dlgDel").showModal(); } }, "Excluir"));
-      return el("tr", {},
-        el("td", {}, el("div", { class: "cli" }, el("span", { class: "av", style: "background:" + corDe(c.nome) }, iniciais(c.nome)),
-          el("div", {}, el("b", {}, c.nome), el("a", { href: "mailto:" + c.email, style: "color:var(--muted);font-size:12px;text-decoration:none" }, c.email)))),
-        el("td", {}, c.telefone || "Não informado"), el("td", {}, sel), el("td", {}, dataBR(c.criadoEm)), el("td", {}, acao));
-    }));
-    $("vazio").hidden = f.length > 0;
-    $("vazioT").textContent = clientes.length ? "Nenhum resultado" : "Nenhum cliente cadastrado";
-    $("vazioS").textContent = clientes.length ? "Tente outra busca ou outro status." : "Use o botão “Novo cliente” para cadastrar o primeiro.";
-    $("contagem").textContent = clientes.length ? `Mostrando ${f.length} de ${clientes.length}` : "";
-  }
+function ha(t) {
+  const m = Math.floor((Date.now() - t) / 6e4);
 
-  function erro(campo, msg) {
-    $("e" + campo[0].toUpperCase() + campo.slice(1)).textContent = msg;
-    $(campo).setAttribute("aria-invalid", msg ? "true" : "false");
-    return !msg;
-  }
+  if (m < 1) return "agora";
+  if (m < 60) return `há ${m} min`;
 
-  function abrirForm(c) {
-    editandoId = c ? c.id : null;
-    $("form").reset(); ["nome", "email", "tel"].forEach((k) => erro(k, ""));
-    $("nome").value = c ? c.nome : ""; $("email").value = c ? c.email : ""; $("tel").value = c ? c.telefone || "" : "";
-    $("status").value = c ? c.status : "Novo";
-    $("tituloForm").textContent = c ? "Editar cliente" : "Novo cliente";
-    $("btnSalvar").textContent = c ? "Salvar alterações" : "Cadastrar";
-    $("dlgForm").showModal(); $("nome").focus();
-  }
+  const h = Math.floor(m / 60);
 
-  $("form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const nome = $("nome").value.trim().replace(/\s+/g, " "), email = $("email").value.trim().toLowerCase();
-    const telefone = $("tel").value.trim(), status = $("status").value;
-    const dup = clientes.some((c) => c.email.toLowerCase() === email && c.id !== editandoId);
-    const a = erro("nome", nome.length < 2 ? "Informe o nome do cliente." : "");
-    const b = erro("email", !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? "Informe um e-mail válido." : dup ? "Já existe um cliente com este e-mail." : "");
-    const c = erro("tel", telefone && digitos(telefone).length < 10 ? "Use DDD + número (10 ou 11 dígitos)." : "");
-    if (!(a && b && c)) { (!a ? $("nome") : !b ? $("email") : $("tel")).focus(); return; }
-    if (editandoId) {
-      clientes = clientes.map((x) => (x.id === editandoId ? { ...x, nome, email, telefone, status } : x));
-      registrar(`${nome} foi atualizado`); aviso("Cliente atualizado.");
+  if (h < 24) return `há ${h} h`;
+
+  const d = Math.floor(h / 24);
+
+  return d === 1 ? "ontem" : `há ${d} dias`;
+}
+
+function el(tag, props = {}, ...filhos) {
+  const e = document.createElement(tag);
+
+  for (const [k, v] of Object.entries(props)) {
+    if (k === "class") {
+      e.className = v;
+    } else if (k === "style") {
+      e.style.cssText = v;
+    } else if (k.startsWith("on")) {
+      e.addEventListener(k.slice(2), v);
     } else {
-      clientes.push({ id: novoId(), nome, email, telefone, status, criadoEm: Date.now() });
-      registrar(`${nome} foi cadastrado`); aviso("Cliente cadastrado.");
+      e.setAttribute(k, v);
     }
-    gravar(CHAVE, clientes); $("dlgForm").close(); render();
+  }
+
+  e.append(...filhos);
+
+  return e;
+}
+
+function aviso(msg) {
+  const a = el("div", { class: "aviso" }, msg);
+
+  $("avisos").append(a);
+
+  setTimeout(() => a.remove(), 2600);
+}
+
+function registrar(texto) {
+  log.unshift({
+    texto,
+    quando: Date.now()
   });
 
-  $("delSim").addEventListener("click", () => {
-    const c = clientes.find((x) => x.id === excluirId);
-    clientes = clientes.filter((x) => x.id !== excluirId);
-    if (c) registrar(`${c.nome} foi excluído`);
-    gravar(CHAVE, clientes); $("dlgDel").close(); render(); aviso("Cliente excluído.");
-  });
-  $("delNao").addEventListener("click", () => $("dlgDel").close());
-  $("cancelar").addEventListener("click", () => $("dlgForm").close());
+  log = log.slice(0, 30);
 
-  $("exportar").addEventListener("click", () => {
-    const f = filtrados();
-    if (!f.length) { aviso("Não há clientes para exportar."); return; }
-    const cel = (v) => { v = String(v || ""); if (/^[=+\-@]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; };
-    const linhas = [["Nome", "E-mail", "Telefone", "Status"], ...f.map((c) => [c.nome, c.email, c.telefone, c.status])].map((l) => l.map(cel).join(";"));
-    const url = URL.createObjectURL(new Blob(["\ufeff" + linhas.join("\r\n")], { type: "text/csv;charset=utf-8" }));
-    const a = el("a", { href: url, download: "clientes.csv" }); document.body.append(a); a.click(); a.remove();
-    URL.revokeObjectURL(url); aviso("Arquivo clientes.csv gerado.");
+  gravar(CHAVE_LOG, log);
+}
+
+function mascara(v) {
+  const d = digitos(v).slice(0, 11);
+
+  if (d.length <= 2) {
+    return d ? "(" + d : "";
+  }
+
+  if (d.length <= 6) {
+    return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  }
+
+  if (d.length <= 10) {
+    return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  }
+
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+}
+
+function grafico() {
+  const hoje = new Date();
+
+  hoje.setHours(0, 0, 0, 0);
+
+  const ini = hoje.getTime() - 29 * DIA;
+
+  let acum = clientes.filter(
+    (c) => !c.criadoEm || c.criadoEm < ini
+  ).length;
+
+  const pts = Array.from({ length: 30 }, (_, i) => {
+    const a = ini + i * DIA;
+
+    acum += clientes.filter(
+      (c) => c.criadoEm >= a && c.criadoEm < a + DIA
+    ).length;
+
+    return acum;
   });
 
-  STATUS.forEach((s) => { $("status").append(el("option", { value: s }, s)); $("filtro").append(el("option", { value: s }, s)); });
-  $("tel").addEventListener("input", (e) => { e.target.value = mascara(e.target.value); });
-  $("busca").addEventListener("input", tabela);
-  $("filtro").addEventListener("change", tabela);
-  $("abrirNovo").addEventListener("click", () => abrirForm(null));
-  $("abrirNovo2").addEventListener("click", () => abrirForm(null));
+  const topo = Math.max(
+    4,
+    Math.ceil(Math.max(...pts) / 4) * 4
+  );
+
+  const X = (i) => 50 + (i / 29) * 530;
+  const Y = (v) => 170 - (v / topo) * 150;
+
+  const linha = pts.map(
+    (v, i) => `${X(i)},${Y(v)}`
+  ).join(" ");
+
+  const grade = [0, 0.5, 1].map((f) => `
+    <line
+      x1="50"
+      x2="580"
+      y1="${Y(topo * f)}"
+      y2="${Y(topo * f)}"
+      stroke="#e8ebf5"
+    />
+    <text
+      x="42"
+      y="${Y(topo * f) + 4}"
+      text-anchor="end"
+      font-size="11"
+      fill="#6b738f"
+    >${Math.round(topo * f)}</text>
+  `).join("");
+
+  const rot = [0, 14, 29].map((i) => `
+    <text
+      x="${X(i)}"
+      y="195"
+      text-anchor="${i === 0 ? "start" : i === 29 ? "end" : "middle"}"
+      font-size="11"
+      fill="#6b738f"
+    >${new Date(ini + i * DIA).toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit"
+    })}</text>
+  `).join("");
+
+  $("grafico").innerHTML = `
+    <svg
+      class="graf"
+      viewBox="0 0 600 205"
+      role="img"
+      aria-label="Total de clientes nos últimos 30 dias, chegando a ${pts[29]}"
+    >
+      ${grade}
+      ${rot}
+      <polygon
+        points="50,170 ${linha} 580,170"
+        fill="#3b5bf5"
+        opacity=".08"
+      />
+      <polyline
+        points="${linha}"
+        fill="none"
+        stroke="#3b5bf5"
+        stroke-width="2.5"
+        stroke-linejoin="round"
+      />
+      <circle
+        cx="580"
+        cy="${Y(pts[29])}"
+        r="4"
+        fill="#3b5bf5"
+      />
+    </svg>
+  `;
+}
+
+function render() {
+  const total = clientes.length;
+
+  const por = (s) => clientes.filter(
+    (c) => c.status === s
+  ).length;
+
+  const sete = clientes.filter(
+    (c) => c.criadoEm && Date.now() - c.criadoEm < 7 * DIA
+  ).length;
+
+  const fone = clientes.filter(
+    (c) => digitos(c.telefone).length >= 10
+  ).length;
+
+  const pct = (n) => (
+    total ? Math.round((n / total) * 100) + "% da base" : ""
+  );
+
+  $("kTotal").textContent = total;
+  $("kTotalE").textContent = sete ? `+${sete} nos últimos 7 dias` : "";
+
+  $("kNovo").textContent = por("Novo");
+  $("kNovoE").textContent = pct(por("Novo"));
+
+  $("kFone").textContent = fone;
+  $("kFoneE").textContent = pct(fone);
+
+  $("kGanho").textContent = por("Cliente");
+  $("kGanhoE").textContent = pct(por("Cliente"));
+
+  $("fTotal").textContent = total;
+
+  grafico();
+
+  $("funil").replaceChildren(
+    ...STATUS.map((s, i) =>
+      el(
+        "div",
+        { class: "etapa" },
+        el(
+          "div",
+          {
+            class: "f",
+            style: `width:${100 - i * 18}%;background:${FUNIL[i]};color:${i === 0 ? "#fff" : "#1c2340"}`
+          },
+          s
+        ),
+        el("b", {}, String(por(s)))
+      )
+    )
+  );
+
+  const rec = [...clientes]
+    .sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0))
+    .slice(0, 5);
+
+  $("recentes").replaceChildren(
+    ...(rec.length
+      ? rec.map((c) =>
+          el(
+            "div",
+            { class: "linha" },
+            el(
+              "span",
+              {
+                class: "av",
+                style: "background:" + corDe(c.nome)
+              },
+              iniciais(c.nome)
+            ),
+            el(
+              "div",
+              { class: "t" },
+              el("b", {}, c.nome),
+              el("span", {}, c.email)
+            ),
+            el("span", { class: "st s-" + c.status }, c.status),
+            el("span", { class: "quando" }, c.criadoEm ? ha(c.criadoEm) : "")
+          )
+        )
+      : [
+          el(
+            "div",
+            { class: "vazio" },
+            el("b", {}, "Nenhum cliente ainda"),
+            "Clique em Novo cliente para começar."
+          )
+        ])
+  );
+
+  $("log").replaceChildren(
+    ...(log.length
+      ? log.slice(0, 6).map((l) =>
+          el(
+            "div",
+            { class: "linha" },
+            el("span", { class: "ai" }, "•"),
+            el(
+              "div",
+              { class: "t" },
+              el("b", {}, l.texto)
+            ),
+            el("span", { class: "quando" }, ha(l.quando))
+          )
+        )
+      : [
+          el(
+            "div",
+            { class: "vazio" },
+            el("b", {}, "Sem atividade"),
+            "Cadastros, edições e exclusões aparecem aqui."
+          )
+        ])
+  );
+
+  tabela();
+}
+
+function filtrados() {
+  const q = $("busca").value.toLowerCase().trim();
+  const qd = digitos(q);
+  const st = $("filtro").value;
+
+  return clientes
+    .filter((c) =>
+      (!st || c.status === st) &&
+      (
+        c.nome.toLowerCase().includes(q) ||
+        c.email.toLowerCase().includes(q) ||
+        (c.telefone || "").includes(q) ||
+        (qd && digitos(c.telefone).includes(qd))
+      )
+    )
+    .sort((a, b) =>
+      (b.criadoEm || 0) - (a.criadoEm || 0) ||
+      a.nome.localeCompare(b.nome, "pt-BR")
+    );
+}
+
+function tabela() {
+  const f = filtrados();
+
+  $("corpo").replaceChildren(
+    ...f.map((c) => {
+      const fone = digitos(c.telefone);
+
+      const sel = el(
+        "select",
+        {
+          class: "st s-" + c.status,
+          "aria-label": "Status de " + c.nome
+        },
+        ...STATUS.map((s) => el("option", { value: s }, s))
+      );
+
+      sel.value = c.status;
+
+      sel.addEventListener("change", () => {
+        c.status = sel.value;
+
+        registrar(`${c.nome} agora é "${c.status}"`);
+
+        gravar(CHAVE, clientes);
+
+        render();
+      });
+
+      const acao = el("div", { class: "acao" });
+
+      if (fone.length >= 10) {
+        acao.append(
+          el(
+            "a",
+            {
+              class: "bt",
+              href: "https://wa.me/55" + fone,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              "aria-label": "Chamar " + c.nome + " no WhatsApp"
+            },
+            "WhatsApp"
+          )
+        );
+      }
+
+      acao.append(
+        el(
+          "button",
+          {
+            class: "bt",
+            type: "button",
+            "aria-label": "Editar " + c.nome,
+            onclick: () => abrirForm(c)
+          },
+          "Editar"
+        ),
+        el(
+          "button",
+          {
+            class: "bt x",
+            type: "button",
+            "aria-label": "Excluir " + c.nome,
+            onclick: () => {
+              excluirId = c.id;
+
+              $("delTexto").textContent =
+                `${c.nome} será removido. Essa ação não pode ser desfeita.`;
+
+              $("dlgDel").showModal();
+            }
+          },
+          "Excluir"
+        )
+      );
+
+      return el(
+        "tr",
+        {},
+        el(
+          "td",
+          {},
+          el(
+            "div",
+            { class: "cli" },
+            el(
+              "span",
+              {
+                class: "av",
+                style: "background:" + corDe(c.nome)
+              },
+              iniciais(c.nome)
+            ),
+            el(
+              "div",
+              {},
+              el("b", {}, c.nome),
+              el(
+                "a",
+                {
+                  href: "mailto:" + c.email,
+                  style: "color:var(--muted);font-size:12px;text-decoration:none"
+                },
+                c.email
+              )
+            )
+          )
+        ),
+        el("td", {}, c.telefone || "Não informado"),
+        el("td", {}, sel),
+        el("td", {}, dataBR(c.criadoEm)),
+        el("td", {}, acao)
+      );
+    })
+  );
+
+  $("vazio").hidden = f.length > 0;
+
+  $("vazioT").textContent = clientes.length
+    ? "Nenhum resultado"
+    : "Nenhum cliente cadastrado";
+
+  $("vazioS").textContent = clientes.length
+    ? "Tente outra busca ou outro status."
+    : "Use o botão Novo cliente para cadastrar o primeiro.";
+
+  $("contagem").textContent = clientes.length
+    ? `Mostrando ${f.length} de ${clientes.length}`
+    : "";
+}
+
+function erro(campo, msg) {
+  $("e" + campo[0].toUpperCase() + campo.slice(1)).textContent = msg;
+
+  $(campo).setAttribute(
+    "aria-invalid",
+    msg ? "true" : "false"
+  );
+
+  return !msg;
+}
+
+function abrirForm(c) {
+  editandoId = c ? c.id : null;
+
+  $("form").reset();
+
+  ["nome", "email", "tel"].forEach((k) => erro(k, ""));
+
+  $("nome").value = c ? c.nome : "";
+  $("email").value = c ? c.email : "";
+  $("tel").value = c ? c.telefone || "" : "";
+
+  $("status").value = c ? c.status : "Novo";
+
+  $("tituloForm").textContent = c
+    ? "Editar cliente"
+    : "Novo cliente";
+
+  $("btnSalvar").textContent = c
+    ? "Salvar alterações"
+    : "Cadastrar";
+
+  $("dlgForm").showModal();
+
+  $("nome").focus();
+}
+
+$("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const nome = $("nome").value.trim().replace(/\s+/g, " ");
+  const email = $("email").value.trim().toLowerCase();
+  const telefone = $("tel").value.trim();
+  const status = $("status").value;
+
+  const dup = clientes.some(
+    (c) => c.email.toLowerCase() === email && c.id !== editandoId
+  );
+
+  const a = erro(
+    "nome",
+    nome.length < 2 ? "Informe o nome do cliente." : ""
+  );
+
+  const b = erro(
+    "email",
+    !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)
+      ? "Informe um e-mail válido."
+      : dup
+        ? "Já existe um cliente com este e-mail."
+        : ""
+  );
+
+  const c = erro(
+    "tel",
+    telefone && digitos(telefone).length < 10
+      ? "Use DDD + número (10 ou 11 dígitos)."
+      : ""
+  );
+
+  if (!(a && b && c)) {
+    (!a ? $("nome") : !b ? $("email") : $("tel")).focus();
+    return;
+  }
+
+  if (editandoId) {
+    clientes = clientes.map((x) =>
+      x.id === editandoId
+        ? { ...x, nome, email, telefone, status }
+        : x
+    );
+
+    registrar(`${nome} foi atualizado`);
+
+    aviso("Cliente atualizado.");
+  } else {
+    clientes.push({
+      id: novoId(),
+      nome,
+      email,
+      telefone,
+      status,
+      criadoEm: Date.now()
+    });
+
+    registrar(`${nome} foi cadastrado`);
+
+    aviso("Cliente cadastrado.");
+  }
+
+  gravar(CHAVE, clientes);
+
+  $("dlgForm").close();
+
   render();
+});
+
+$("delSim").addEventListener("click", () => {
+  const c = clientes.find((x) => x.id === excluirId);
+
+  clientes = clientes.filter((x) => x.id !== excluirId);
+
+  if (c) {
+    registrar(`${c.nome} foi excluído`);
+  }
+
+  gravar(CHAVE, clientes);
+
+  $("dlgDel").close();
+
+  render();
+
+  aviso("Cliente excluído.");
+});
+
+$("delNao").addEventListener("click", () => {
+  $("dlgDel").close();
+});
+
+$("cancelar").addEventListener("click", () => {
+  $("dlgForm").close();
+});
+
+$("exportar").addEventListener("click", () => {
+  const f = filtrados();
+
+  if (!f.length) {
+    aviso("Não há clientes para exportar.");
+    return;
+  }
+
+  const cel = (v) => {
+    v = String(v || "");
+
+    if (/^[=+\-@]/.test(v)) {
+      v = "'" + v;
+    }
+
+    return '"' + v.replace(/"/g, '""') + '"';
+  };
+
+  const linhas = [
+    ["Nome", "E-mail", "Telefone", "Status"],
+    ...f.map((c) => [
+      c.nome,
+      c.email,
+      c.telefone,
+      c.status
+    ])
+  ].map((l) => l.map(cel).join(";"));
+
+  const url = URL.createObjectURL(
+    new Blob(
+      ["\ufeff" + linhas.join("\r\n")],
+      { type: "text/csv;charset=utf-8" }
+    )
+  );
+
+  const a = el("a", {
+    href: url,
+    download: "clientes.csv"
+  });
+
+  document.body.append(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+  aviso("Arquivo clientes.csv gerado.");
+});
+
+STATUS.forEach((s) => {
+  $("status").append(
+    el("option", { value: s }, s)
+  );
+
+  $("filtro").append(
+    el("option", { value: s }, s)
+  );
+});
+
+$("tel").addEventListener("input", (e) => {
+  e.target.value = mascara(e.target.value);
+});
+
+$("busca").addEventListener("input", tabela);
+
+$("filtro").addEventListener("change", tabela);
+
+$("abrirNovo").addEventListener("click", () => abrirForm(null));
+
+$("abrirNovo2").addEventListener("click", () => abrirForm(null));
+
+render();
 </script>
+
 </body>
 </html>
